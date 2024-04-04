@@ -11,4 +11,16 @@ public class User {
     private String name;
     private String department;      // 학과
     private String studentId;       // 학번
+
+    public User(String userId, String password, String name, String department, String studentId) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.department = department;
+        this.studentId = studentId;
+    }
+
+    public User() {
+    }
+
 }
