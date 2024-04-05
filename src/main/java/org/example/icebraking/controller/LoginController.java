@@ -1,5 +1,6 @@
 package org.example.icebraking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.icebraking.domain.User;
 import org.example.icebraking.repository.UserRepository;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class LoginController {
 
     private final UserRepository userRepository;
+    private final HttpSession httpSession;
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -31,6 +33,7 @@ public class LoginController {
             return "login_failed";
         } else {
             // 로그인 성공
+            httpSession.setAttribute("loginedUser", loginedUser.get());
             return "redirect:/";
         }
     }
