@@ -38,5 +38,11 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/logout")
+    public String userLogout() {
+        // 로그아웃 시 세션 제거 후 홈화면으로 redirect
+        httpSession.removeAttribute("loginedUser");
+        return "redirect:/";
+    }
 
 }
