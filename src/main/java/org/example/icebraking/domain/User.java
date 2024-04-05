@@ -20,7 +20,11 @@ public class User {
         this.studentId = studentId;
     }
 
-    public User() {
-    }
+    public boolean matchPassword(String password) {
+        if (password == null) {
+            return false;
+        }
 
+        return this.password.equals(password);
+    }
 }

@@ -26,8 +26,5 @@ public class MemoryUserRepository implements UserRepository {
         return new ArrayList<>(userMap.values());
     }
 
-    @Override
-    public void changeInfo(User user) {
 
-    }
 }
