@@ -6,10 +6,7 @@ import org.example.icebraking.domain.User;
 import org.example.icebraking.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -20,14 +17,25 @@ public class SignupController {
     private final UserRepository userRepository;
 
     @GetMapping("/signup")
-    public String showSignupForm(Model model) {
-        model.addAttribute("user", new User());
+    public String showSignupForm() {
         return "form";
     }
 
     @PostMapping("/signup")
-    public String createUser(@ModelAttribute User user) {
+    public String createUser(
+            @RequestParam("userId") String userId,
+            @RequestParam("password") String password,
+            @RequestParam("name") String name,
+            @RequestParam("department") String department,
+            @RequestParam("studentId") String studentId) {
 
+        User user = new User(
+                userId,
+                password,
+                name,
+                department,
+                studentId
+        );
         userRepository.save(user);
 
         // 검증용
