@@ -20,7 +20,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login";
+        return "/user/login";
     }
 
     @PostMapping("/login")
@@ -30,7 +30,7 @@ public class LoginController {
         Optional<User> loginedUser = userRepository.findById(userId);
         if (loginedUser.isEmpty() || !loginedUser.get().matchPassword(password)) {
             // 로그인 실패
-            return "login_failed";
+            return "/user/login_failed";
         } else {
             // 로그인 성공
             httpSession.setAttribute("loginedUser", loginedUser.get());
@@ -44,5 +44,6 @@ public class LoginController {
         httpSession.removeAttribute("loginedUser");
         return "redirect:/";
     }
+
 
 }

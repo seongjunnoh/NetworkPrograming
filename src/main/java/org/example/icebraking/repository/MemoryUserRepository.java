@@ -26,5 +26,12 @@ public class MemoryUserRepository implements UserRepository {
         return new ArrayList<>(userMap.values());
     }
 
+    @Override
+    public void changeUserInfo(User user) {
+        if (userMap.get(user.getUserId()) != null) {
+            userMap.put(user.getUserId(), user);
+        }
+    }
+
 
 }
