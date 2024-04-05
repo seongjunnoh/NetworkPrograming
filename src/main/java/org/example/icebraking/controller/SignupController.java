@@ -1,11 +1,9 @@
 package org.example.icebraking.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.icebraking.domain.User;
 import org.example.icebraking.repository.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,7 +16,7 @@ public class SignupController {
 
     @GetMapping("/signup")
     public String showSignupForm() {
-        return "form";
+        return "/user/signup";
     }
 
     @PostMapping("/signup")

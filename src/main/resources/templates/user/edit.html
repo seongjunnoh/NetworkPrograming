@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h2>Edit Profile</h2>
+<form action="/user/edit" method="post">
+    <div>
+        <label for="userId">ID:</label>
+        <input type="text" id="userId" name="userId" th:value="${user.userId}" readonly>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" th:value="${user.password}" required>
+    </div>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:value="${user.name}" required>
+    </div>
+    <div>
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" th:value="${user.department}" required>
+    </div>
+    <div>
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" th:value="${user.studentId}" required>
+    </div>
+    <button type="submit">Save Changes</button>
+</form>
+</body>
+</html>
+
+
