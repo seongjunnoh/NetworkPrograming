@@ -1,5 +1,6 @@
 package org.example.icebraking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.icebraking.domain.User;
 import org.example.icebraking.repository.UserRepository;
@@ -15,10 +16,11 @@ import java.util.Optional;
 public class LoginController {
 
     private final UserRepository userRepository;
+    private final HttpSession httpSession;
 
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login";
+        return "/user/login";
     }
 
     @PostMapping("/login")
@@ -28,11 +30,19 @@ public class LoginController {
         Optional<User> loginedUser = userRepository.findById(userId);
         if (loginedUser.isEmpty() || !loginedUser.get().matchPassword(password)) {
             // 로그인 실패
-            return "login_failed";
+            return "/user/login_failed";
         } else {
             // 로그인 성공
+            httpSession.setAttribute("loginedUser", loginedUser.get());
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String userLogout() {
+        // 로그아웃 시 세션 제거 후 홈화면으로 redirect
+        httpSession.removeAttribute("loginedUser");
+        return "redirect:/";
     }
 
 
