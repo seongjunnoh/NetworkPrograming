@@ -30,6 +30,8 @@
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .team-item:hover {
@@ -40,6 +42,20 @@
             font-weight: bold;
             font-size: 18px;
         }
+
+        .enter-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .enter-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -49,8 +65,10 @@
     <ul>
         <li th:each="team : ${allTeams}" class="team-item">
             <span class="team-name" th:text="${team.teamName}"></span>
+            <a th:href="@{'/chat/' + ${team.id}}" class="enter-button">Enter</a>
         </li>
     </ul>
 </div>
 </body>
 </html>
+
