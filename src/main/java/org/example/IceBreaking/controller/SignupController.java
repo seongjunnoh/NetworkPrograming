@@ -1,8 +1,8 @@
-package org.example.icebraking.controller;
+package org.example.IceBreaking.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.icebraking.domain.User;
-import org.example.icebraking.repository.UserRepository;
+import org.example.IceBreaking.domain.User;
+import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

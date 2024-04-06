@@ -41,13 +41,14 @@
     </style>
 </head>
 <body>
-<h2>Welcome to Ice Braking!!</h2>
+<h2>Welcome to Ice Breaking!!</h2>
 <div>
     <ul>
         <!-- 세션에 로그인 정보가 있을 때 -->
         <li th:if="${session.loginedUser}"><a href="/logout">Logout</a></li>
         <li th:if="${session.loginedUser}"><a href="/user/edit">Edit Profile</a></li>
         <li th:if="${session.loginedUser}"><a href="/team/create">Create Team</a></li>
+        <li th:if="${session.loginedUser}"><a href="/team/all">All Teams</a></li>
         <!-- 세션에 로그인 정보가 없을 때 -->
         <li th:unless="${session.loginedUser}"><a href="/login">Login</a></li>
         <li th:unless="${session.loginedUser}"><a href="/signup">Sign up</a></li>

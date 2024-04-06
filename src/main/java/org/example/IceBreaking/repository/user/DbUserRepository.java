@@ -1,7 +1,7 @@
-package org.example.icebraking.repository;
+package org.example.IceBreaking.repository.user;
 
 //import lombok.RequiredArgsConstructor;
-//import org.example.icebraking.domain.User;
+//import org.example.IceBreaking.domain.User;
 //import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 //import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.stereotype.Repository;
