@@ -1,10 +1,10 @@
-package org.example.icebraking;
+package org.example.IceBreaking;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IceBrakingApplicationTests {
+class IceBreakingApplicationTests {
 
 	@Test
 	void contextLoads() {
