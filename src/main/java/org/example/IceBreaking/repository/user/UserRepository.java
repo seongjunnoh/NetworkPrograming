@@ -1,6 +1,6 @@
-package org.example.icebraking.repository;
+package org.example.IceBreaking.repository.user;
 
-import org.example.icebraking.domain.User;
+import org.example.IceBreaking.domain.User;
 
 import java.util.List;
 import java.util.Optional;

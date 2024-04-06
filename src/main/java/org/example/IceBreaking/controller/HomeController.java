@@ -1,4 +1,4 @@
-package org.example.icebraking.controller;
+package org.example.IceBreaking.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,6 @@
-package org.example.icebraking.repository;
+package org.example.IceBreaking.repository.user;
 
-import lombok.RequiredArgsConstructor;
-import org.example.icebraking.domain.User;
+import org.example.IceBreaking.domain.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

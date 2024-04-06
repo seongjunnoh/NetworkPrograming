@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Teams</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .team-list {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        .team-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .team-item:hover {
+            background-color: #e9e9e9;
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<h2>All Teams</h2>
+<div class="team-list">
+    <!-- 서버로부터 받은 모든 팀 목록을 반복하여 화면에 표시합니다 -->
+    <ul>
+        <li th:each="team : ${allTeams}" class="team-item">
+            <span class="team-name" th:text="${team.teamName}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

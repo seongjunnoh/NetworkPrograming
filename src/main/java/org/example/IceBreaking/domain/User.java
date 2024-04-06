@@ -1,4 +1,4 @@
-package org.example.icebraking.domain;
+package org.example.IceBreaking.domain;
 
 import lombok.Getter;
 import lombok.Setter;
