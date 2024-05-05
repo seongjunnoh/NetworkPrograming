@@ -20,20 +20,7 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String createUser(
-            @RequestParam("userId") String userId,
-            @RequestParam("password") String password,
-            @RequestParam("name") String name,
-            @RequestParam("department") String department,
-            @RequestParam("studentId") String studentId) {
-
-        User user = new User(
-                userId,
-                password,
-                name,
-                department,
-                studentId
-        );
+    public String createUser(@ModelAttribute User user) {
         userRepository.save(user);
 
         // 검증용
@@ -44,7 +31,8 @@ public class SignupController {
         System.out.println("savedUser.get().getName() = " + savedUser.get().getName());
         System.out.println("savedUser.get().getDepartment() = " + savedUser.get().getDepartment());
         System.out.println("savedUser.get().getStudentId() = " + savedUser.get().getStudentId());
-        
+        System.out.println("savedUser.get().getInterest() = " + savedUser.get().getInterest());
+
         return "redirect:/";         // 회원가입 후 홈화면으로 redirect
     }
 }

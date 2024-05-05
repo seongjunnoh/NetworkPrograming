@@ -7,6 +7,7 @@ import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,15 +29,7 @@ public class EditController {
     }
 
     @PostMapping("/user/edit")
-    public String editUserInfo(
-            @RequestParam("userId") String userId,
-            @RequestParam("password") String password,
-            @RequestParam("name") String name,
-            @RequestParam("department") String department,
-            @RequestParam("studentId") String studentId,
-            HttpSession httpSession) {
-
-        User user = new User(userId, password, name, department, studentId);
+    public String editUserInfo(@ModelAttribute User user, HttpSession httpSession) {
         userRepository.changeUserInfo(user);
 
         // 세션 정보 update

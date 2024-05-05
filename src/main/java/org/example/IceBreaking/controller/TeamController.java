@@ -1,9 +1,7 @@
 package org.example.IceBreaking.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Team;
-import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
