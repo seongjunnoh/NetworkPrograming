@@ -1,9 +1,13 @@
 package org.example.IceBreaking.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     private String userId;
@@ -11,14 +15,7 @@ public class User {
     private String name;
     private String department;      // 학과
     private String studentId;       // 학번
-
-    public User(String userId, String password, String name, String department, String studentId) {
-        this.userId = userId;
-        this.password = password;
-        this.name = name;
-        this.department = department;
-        this.studentId = studentId;
-    }
+    private String interest;        // 관심사
 
     public boolean matchPassword(String password) {
         if (password == null) {

@@ -18,7 +18,7 @@ public class LoginController {
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
-    @GetMapping("/login")
+    @GetMapping("/showLogin")
     public String showLoginForm() {
         return "/user/login";
     }
