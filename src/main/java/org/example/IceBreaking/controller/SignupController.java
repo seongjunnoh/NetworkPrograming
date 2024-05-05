@@ -14,7 +14,7 @@ public class SignupController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/signup")
+    @GetMapping("/showSignup")
     public String showSignupForm() {
         return "/user/signup";
     }
@@ -33,7 +33,7 @@ public class SignupController {
         System.out.println("savedUser.get().getStudentId() = " + savedUser.get().getStudentId());
         System.out.println("savedUser.get().getInterest() = " + savedUser.get().getInterest());
 
-        return "redirect:/";         // 회원가입 후 홈화면으로 redirect
+        return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }
 }
 

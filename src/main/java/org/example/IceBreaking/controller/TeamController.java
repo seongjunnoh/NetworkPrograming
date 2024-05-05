@@ -17,7 +17,7 @@ public class TeamController {
 
     private final TeamRepository teamRepository;
 
-    @GetMapping("/team/create")
+    @GetMapping("/team/showCreateForm")
     public String showCreateTeamForm() {
         return "/team/create";
     }
@@ -30,7 +30,7 @@ public class TeamController {
         return "redirect:/";            // 홈화면으로 redirect
     }
 
-    @GetMapping("/team/all")
+    @GetMapping("/team/showAll")
     public String showAllTeams(Model model) {
         List<Team> allTeams = teamRepository.findAll();
         model.addAttribute("allTeams", allTeams);

@@ -17,7 +17,7 @@ public class EditController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/user/edit")
+    @GetMapping("/user/showEdit")
     public String showEditForm(Model model, HttpSession httpSession) {
         // 세션에서 로그인된 유저 정보 가져오기
         User loginedUser = (User) httpSession.getAttribute("loginedUser");

@@ -67,12 +67,12 @@
     <ul>
         <!-- 세션에 로그인 정보가 있을 때 -->
         <li th:if="${session.loginedUser}"><a href="/logout">로그아웃</a></li>
-        <li th:if="${session.loginedUser}"><a href="/user/edit">프로필 수정</a></li>
-        <li th:if="${session.loginedUser}"><a href="/team/create">팀플방 생성</a></li>
-        <li th:if="${session.loginedUser}"><a href="/team/all">팀플방 찾기</a></li>
+        <li th:if="${session.loginedUser}"><a href="/user/showEdit">프로필 수정</a></li>
+        <li th:if="${session.loginedUser}"><a href="/team/showCreateForm">팀플방 생성</a></li>
+        <li th:if="${session.loginedUser}"><a href="/team/showAll">팀플방 찾기</a></li>
         <!-- 세션에 로그인 정보가 없을 때 -->
-        <li th:unless="${session.loginedUser}"><a href="/login">로그인</a></li>
-        <li th:unless="${session.loginedUser}"><a href="/signup">회원가입</a></li>
+        <li th:unless="${session.loginedUser}"><a href="/showLogin">로그인</a></li>
+        <li th:unless="${session.loginedUser}"><a href="/showSignup">회원가입</a></li>
     </ul>
 </div>
 </body>
