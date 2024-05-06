@@ -51,6 +51,32 @@
             font-size: 16px;
             background-color: #f6ffff;
         }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .interests {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .interests label {
+            margin-right: 15px;
+        }
+
+        .sub-interests {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .sub-interests label {
+            margin-right: 15px;
+        }
+
+        .sub-interests-group {
+            display: flex;
+        }
 
         button[type="submit"] {
             width: 100%;
@@ -92,7 +118,78 @@
         <label for="studentId">학번:</label>
         <input type="text" id="studentId" name="studentId" th:value="${user.studentId}" required>
     </div>
+    <div class="interests" id="interest">
+        <label>관심사:</label>
+        <input type="checkbox" id="sports" name="interest" value="sports" th:checked="${user.interest == 'sports'}" onchange="showSubInterests('sports')">
+        <label for="sports">스포츠</label>
+
+        <input type="checkbox" id="movie" name="interest" value="movie" th:checked="${user.interest == 'movie'}" onchange="showSubInterests('movie')">
+        <label for="movie">영화</label>
+
+        <input type="checkbox" id="games" name="interest" value="games" th:checked="${user.interest == 'games'}" onchange="showSubInterests('games')">
+        <label for="games">게임</label>
+    </div>
+
+    <div class="sub-interests" id="subSports">
+        <label>스포츠:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterest" value="축구" th:checked="${user.subInterest == '축구'}">
+            <label for="soccer">축구</label>
+            <input type="checkbox" name="subInterest" value="야구" th:checked="${user.subInterest == '야구'}">
+            <label for="baseball">야구</label>
+            <input type="checkbox" name="subInterest" value="농구" th:checked="${user.subInterest == '농구'}">
+            <label for="basketball">농구</label>
+        </div>
+    </div>
+
+    <div class="sub-interests" id="subMovie">
+        <label>영화:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterest" value="로맨스" th:checked="${user.subInterest == '로맨스'}">
+            <label for="romance">로맨스</label>
+            <input type="checkbox" name="subInterest" value="액션" th:checked="${user.subInterest == '액션'}">
+            <label for="action">액션</label>
+            <input type="checkbox" name="subInterest" value="SF" th:checked="${user.subInterest == 'SF'}">
+            <label for="sf">SF</label>
+        </div>
+    </div>
+
+    <div class="sub-interests" id="subGames">
+        <label>게임:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterest" value="롤" th:checked="${user.subInterest == '롤'}">
+            <label for="lol">롤</label>
+            <input type="checkbox" name="subInterest" value="배그" th:checked="${user.subInterest == '배그'}">
+            <label for="pubg">배그</label>
+            <input type="checkbox" name="subInterest" value="오버워치" th:checked="${user.subInterest == '오버워치'}">
+            <label for="overwatch">오버워치</label>
+        </div>
+    </div>
     <button type="submit">수정하기</button>
 </form>
+
+<script>
+    function showSubInterests(interest) {
+        var subInterestDiv = document.getElementById('sub' + interest.charAt(0).toUpperCase() + interest.slice(1));
+        var interestCheckbox = document.getElementById(interest);
+
+        if (interestCheckbox.checked) {
+            subInterestDiv.style.display = 'block';
+        } else {
+            subInterestDiv.style.display = 'none';
+        }
+    }
+    // 페이지 로드 시 각 상위 키워드에 대해 하위 키워드 보여주기
+    window.onload = function() {
+        var interests = document.querySelectorAll('.interests input[type="checkbox"]');
+        interests.forEach(function(interest) {
+            if (interest.checked) {
+                var interestValue = interest.value;
+                showSubInterests(interestValue);
+            }
+        });
+    };
+</script>
+
 </body>
 </html>
