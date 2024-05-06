@@ -48,6 +48,33 @@
             background-color: #f6ffff;
         }
 
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .interests {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .interests label {
+            margin-right: 15px;
+        }
+
+        .sub-interests {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .sub-interests label {
+            margin-right: 15px;
+        }
+
+        .sub-interests-group {
+            display: flex;
+        }
+
         input[type="submit"] {
             width: 100%;
             background-color: #64d8ff;
@@ -82,7 +109,68 @@
     <label for="studentId">학번:</label>
     <input type="text" id="studentId" name="studentId" required>
 
+    <div class="interests">
+        <label>관심사:</label>
+        <input type="checkbox" id="sports" name="interests" value="sports" onchange="showSubInterests('sports')">
+        <label for="sports">스포츠</label>
+
+        <input type="checkbox" id="movie" name="interests" value="movie" onchange="showSubInterests('movie')">
+        <label for="movie">영화</label>
+
+        <input type="checkbox" id="games" name="interests" value="games" onchange="showSubInterests('games')">
+        <label for="games">게임</label>
+    </div>
+
+    <div class="sub-interests" id="subSports">
+        <label>스포츠:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterests" value="축구">
+            <label for="soccer">축구</label>
+            <input type="checkbox" name="subInterests" value="야구">
+            <label for="baseball">야구</label>
+            <input type="checkbox" name="subInterests" value="농구">
+            <label for="basketball">농구</label>
+        </div>
+    </div>
+
+    <div class="sub-interests" id="subMovie">
+        <label>영화:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterests" value="로맨스">
+            <label for="romance">로맨스</label>
+            <input type="checkbox" name="subInterests" value="액션">
+            <label for="action">액션</label>
+            <input type="checkbox" name="subInterests" value="SF">
+            <label for="sf">SF</label>
+        </div>
+    </div>
+
+    <div class="sub-interests" id="subGames">
+        <label>게임:</label>
+        <div class="sub-interests-group">
+            <input type="checkbox" name="subInterests" value="롤">
+            <label for="lol">롤</label>
+            <input type="checkbox" name="subInterests" value="배그">
+            <label for="pubg">배그</label>
+            <input type="checkbox" name="subInterests" value="오버워치">
+            <label for="overwatch">오버워치</label>
+        </div>
+    </div>
+
     <input type="submit" value="완료">
 </form>
+
+<script>
+    function showSubInterests(interest) {
+        var subInterestDiv = document.getElementById('sub' + interest.charAt(0).toUpperCase() + interest.slice(1));
+        var interestCheckbox = document.getElementById(interest);
+
+        if (interestCheckbox.checked) {
+            subInterestDiv.style.display = 'block';
+        } else {
+            subInterestDiv.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>
