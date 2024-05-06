@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class EditController {
         userRepository.changeUserInfo(user);
 
         // 세션 정보 update
-        httpSession.setAttribute("loginedUser", user);;
+        httpSession.setAttribute("loginedUser", user);
 
         return "redirect:/";            // 홈화면으로 redirect
     }
