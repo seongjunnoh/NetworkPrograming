@@ -32,6 +32,7 @@ public class SignupController {
         System.out.println("savedUser.get().getDepartment() = " + savedUser.get().getDepartment());
         System.out.println("savedUser.get().getStudentId() = " + savedUser.get().getStudentId());
         System.out.println("savedUser.get().getInterest() = " + savedUser.get().getInterest());
+        System.out.println("savedUser.get().getSubInterest() = " + savedUser.get().getSubInterest());
 
         return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }
