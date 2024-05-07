@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+</head>
+<body>
+<h1>Chat Room</h1>
+
+<!-- 채팅 기록이 있는 경우 -->
+<div th:if="${not #lists.isEmpty(allChats)}">
+    <ul>
+        <!-- 각 채팅을 반복하여 표시 -->
+        <li th:each="chat : ${allChats}">
+            <p><b th:text="${chat.userName}"/>: <span th:text="${chat.message}"/></p>
+        </li>
+    </ul>
+</div>
+
+<!-- 채팅 기록이 없는 경우 -->
+<div th:if="${#lists.isEmpty(allChats)}">
+    <p>No chat history available.</p>
+</div>
+</body>
+</html>
