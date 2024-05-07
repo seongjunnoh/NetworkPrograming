@@ -4,6 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .no-chat {
+            text-align: center;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
 <h1>Chat Room</h1>
@@ -19,8 +54,9 @@
 </div>
 
 <!-- 채팅 기록이 없는 경우 -->
-<div th:if="${#lists.isEmpty(allChats)}">
+<div th:if="${#lists.isEmpty(allChats)}" class="no-chat">
     <p>No chat history available.</p>
 </div>
 </body>
 </html>
+
