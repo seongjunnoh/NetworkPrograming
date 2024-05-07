@@ -2,27 +2,35 @@ package org.example.IceBreaking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Chat;
+import org.example.IceBreaking.domain.Team;
 import org.example.IceBreaking.repository.chat.ChatRepository;
+import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
 
     private final ChatRepository chatRepository;
+    private final TeamRepository teamRepository;
 
     @GetMapping("/chat/{teamId}")
     public String showChatRoom(@PathVariable("teamId") int teamId, Model model) {
         List<Chat> chatList = chatRepository.findByTeamId(teamId);
         model.addAttribute("allChats", chatList);
 
+        Optional<Team> team = teamRepository.findById(teamId);
+        model.addAttribute("teamName", team.get().getTeamName());
+
         return "/chat/chatRoom";
     }
+
 
 
 
