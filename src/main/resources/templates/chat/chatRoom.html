@@ -101,7 +101,6 @@
         <!-- 채팅 기록이 있는 경우 -->
         <li th:each="chat : ${allChats}" class="chat-message">
             <p class="message-text"><b th:text="${chat.userName}"/>: <span th:text="${chat.message}"/></p>
-            <p class="message-info">Sent at: <span th:text="${chat.timestamp}"/></p>
         </li>
 <!--        &lt;!&ndash; 채팅 기록이 없는 경우 &ndash;&gt;-->
 <!--        <div th:if="${#lists.isEmpty(allChats)}" class="no-chat">-->

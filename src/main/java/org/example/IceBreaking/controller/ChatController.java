@@ -7,12 +7,10 @@ import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,14 +37,14 @@ public class ChatController {
         // parameter parsing 확인
         System.out.println("chat.getUserName() = " + chat.getUserName());       // 이건 모름 -> chatRoom.html에 이 정보가 있어야함
         System.out.println("chat.getMessage() = " + chat.getMessage());
-        System.out.println("chat.getTime() = " + chat.getTime());               // 이것도 chatRoom.html 에 추가해 줘야함
+//        System.out.println("chat.getTime() = " + chat.getTime());               // 이것도 chatRoom.html 에 추가해 줘야함
 
         chatRepository.saveByTeamId(teamId, chat);
 
         // RedirectAttributes를 사용하여 teamId를 다음 페이지로 전달
         attributes.addAttribute("teamId", teamId);
 
-        return "redirect:/chat/{teamId}";           // redirect를 해야하는데 이렇게 하면 500 에러 발생
+        return "redirect:/chat/{teamId}";
     }
 
 
