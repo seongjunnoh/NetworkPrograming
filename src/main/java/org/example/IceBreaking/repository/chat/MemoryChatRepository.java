@@ -11,21 +11,19 @@ import java.util.Map;
 @Repository
 public class MemoryChatRepository implements ChatRepository {
 
-    private final Map<Integer, Chat> chatMap = new HashMap<>();
+    private final Map<Integer, ArrayList<Chat>> chatMap = new HashMap<>();
 
     @Override
     public void saveByTeamId(int teamId, Chat chat) {
-        chatMap.put(teamId, chat);
+        chatMap.get(teamId).add(chat);
     }
 
     @Override
     public List<Chat> findByTeamId(int teamId) {
-        List<Chat> chatList = new ArrayList<>();
-        for (Map.Entry<Integer, Chat> entry : chatMap.entrySet()) {
-            if (entry.getKey() == teamId) {
-                chatList.add(entry.getValue());
-            }
+        if (chatMap.get(teamId) == null) {
+            ArrayList<Chat> newChats = new ArrayList<>();
+            chatMap.put(teamId, newChats);
         }
-        return chatList;
+        return chatMap.get(teamId);
     }
 }
