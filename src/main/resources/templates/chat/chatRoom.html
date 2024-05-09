@@ -92,6 +92,22 @@
         .message-send:hover {
             background-color: #00acc1;
         }
+
+        /* 추가한 버튼 스타일 */
+        .exit-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .exit-button:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +117,6 @@
         <!-- 채팅 기록이 있는 경우 -->
         <li th:each="chat : ${allChats}" class="chat-message">
             <p class="message-text"><b th:text="${chat.userName}"/>: <span th:text="${chat.message}"/></p>
-            <p class="message-info">Sent at: <span th:text="${chat.timestamp}"/></p>
         </li>
 <!--        &lt;!&ndash; 채팅 기록이 없는 경우 &ndash;&gt;-->
 <!--        <div th:if="${#lists.isEmpty(allChats)}" class="no-chat">-->
@@ -112,6 +127,11 @@
     <form th:action="@{'/send-message/' + ${teamId}}" method="post">
         <textarea name="message" class="message-input" rows="3" placeholder="Type your message here..." required></textarea>
         <button type="submit" class="message-send">Send</button>
+    </form>
+
+    <!-- Exit 버튼 추가 -->
+    <form action="/team/showAll" method="get">
+        <button type="submit" class="exit-button">Exit</button>
     </form>
 </div>
 </body>

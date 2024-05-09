@@ -59,6 +59,21 @@
         .enter-button:hover {
             background-color: #00acc1;
         }
+
+        /* 나가기 버튼 스타일 */
+        .exit-button {
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .exit-button:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -71,6 +86,11 @@
             <a th:href="@{'/chat/' + ${team.id}}" class="enter-button">입장</a>
         </li>
     </ul>
+
+    <!-- 나가기 버튼 추가 -->
+    <form action="/" method="get">
+        <button type="submit" class="exit-button">나가기</button>
+    </form>
 </div>
 </body>
 </html>

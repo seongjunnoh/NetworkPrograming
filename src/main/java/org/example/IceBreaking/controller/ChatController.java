@@ -1,14 +1,16 @@
 package org.example.IceBreaking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Chat;
 import org.example.IceBreaking.domain.Team;
+import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +21,16 @@ public class ChatController {
 
     private final ChatRepository chatRepository;
     private final TeamRepository teamRepository;
+    private final HttpSession httpSession;
 
     @GetMapping("/chat/{teamId}")
     public String showChatRoom(@PathVariable("teamId") int teamId, Model model) {
         List<Chat> chatList = chatRepository.findByTeamId(teamId);
+        // chatList 확인
+        for (Chat chat : chatList) {
+            System.out.println(chat.toString());
+        }
+
         model.addAttribute("allChats", chatList);
 
         Optional<Team> team = teamRepository.findById(teamId);
@@ -31,7 +39,26 @@ public class ChatController {
         return "/chat/chatRoom";
     }
 
+    @PostMapping("/send-message/{teamId}")
+    public String sendMessage(@PathVariable("teamId") int teamId, @ModelAttribute("message") String message, RedirectAttributes attributes) {
+        // message 보내는 user의 이름 get
+        User loginedUser = (User) httpSession.getAttribute("loginedUser");
+        String userName = loginedUser.getName();
 
+        // parameter parsing 확인
+        System.out.println("message = " + message);
+
+        // Chat 객체 구성
+        Chat chat = new Chat(userName, message);
+
+        // Chat 객체 저장
+        chatRepository.saveByTeamId(teamId, chat);
+
+        // RedirectAttributes를 사용하여 teamId를 다음 페이지로 전달
+        attributes.addAttribute("teamId", teamId);
+
+        return "redirect:/chat/{teamId}";
+    }
 
 
 
