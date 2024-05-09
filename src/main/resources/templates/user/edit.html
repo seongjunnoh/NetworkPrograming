@@ -120,24 +120,24 @@
     </div>
     <div class="interests" id="interest">
         <label>관심사:</label>
-        <input type="checkbox" id="sports" name="interest" value="sports" th:checked="${user.interest == 'sports'}" onchange="showSubInterests('sports')">
+        <input type="radio" id="sports" name="interest" value="sports" th:checked="${user.interest == 'sports'}" onchange="showSubInterests('sports')">
         <label for="sports">스포츠</label>
 
-        <input type="checkbox" id="movie" name="interest" value="movie" th:checked="${user.interest == 'movie'}" onchange="showSubInterests('movie')">
+        <input type="radio" id="movie" name="interest" value="movie" th:checked="${user.interest == 'movie'}" onchange="showSubInterests('movie')">
         <label for="movie">영화</label>
 
-        <input type="checkbox" id="games" name="interest" value="games" th:checked="${user.interest == 'games'}" onchange="showSubInterests('games')">
+        <input type="radio" id="games" name="interest" value="games" th:checked="${user.interest == 'games'}" onchange="showSubInterests('games')">
         <label for="games">게임</label>
     </div>
 
     <div class="sub-interests" id="subSports">
         <label>스포츠:</label>
         <div class="sub-interests-group">
-            <input type="checkbox" name="subInterest" value="축구" th:checked="${user.subInterest == '축구'}">
+            <input type="radio" name="subInterest" value="축구" th:checked="${user.subInterest == '축구'}">
             <label for="soccer">축구</label>
-            <input type="checkbox" name="subInterest" value="야구" th:checked="${user.subInterest == '야구'}">
+            <input type="radio" name="subInterest" value="야구" th:checked="${user.subInterest == '야구'}">
             <label for="baseball">야구</label>
-            <input type="checkbox" name="subInterest" value="농구" th:checked="${user.subInterest == '농구'}">
+            <input type="radio" name="subInterest" value="농구" th:checked="${user.subInterest == '농구'}">
             <label for="basketball">농구</label>
         </div>
     </div>
@@ -145,11 +145,11 @@
     <div class="sub-interests" id="subMovie">
         <label>영화:</label>
         <div class="sub-interests-group">
-            <input type="checkbox" name="subInterest" value="로맨스" th:checked="${user.subInterest == '로맨스'}">
+            <input type="radio" name="subInterest" value="로맨스" th:checked="${user.subInterest == '로맨스'}">
             <label for="romance">로맨스</label>
-            <input type="checkbox" name="subInterest" value="액션" th:checked="${user.subInterest == '액션'}">
+            <input type="radio" name="subInterest" value="액션" th:checked="${user.subInterest == '액션'}">
             <label for="action">액션</label>
-            <input type="checkbox" name="subInterest" value="SF" th:checked="${user.subInterest == 'SF'}">
+            <input type="radio" name="subInterest" value="SF" th:checked="${user.subInterest == 'SF'}">
             <label for="sf">SF</label>
         </div>
     </div>
@@ -157,11 +157,11 @@
     <div class="sub-interests" id="subGames">
         <label>게임:</label>
         <div class="sub-interests-group">
-            <input type="checkbox" name="subInterest" value="롤" th:checked="${user.subInterest == '롤'}">
+            <input type="radio" name="subInterest" value="롤" th:checked="${user.subInterest == '롤'}">
             <label for="lol">롤</label>
-            <input type="checkbox" name="subInterest" value="배그" th:checked="${user.subInterest == '배그'}">
+            <input type="radio" name="subInterest" value="배그" th:checked="${user.subInterest == '배그'}">
             <label for="pubg">배그</label>
-            <input type="checkbox" name="subInterest" value="오버워치" th:checked="${user.subInterest == '오버워치'}">
+            <input type="radio" name="subInterest" value="오버워치" th:checked="${user.subInterest == '오버워치'}">
             <label for="overwatch">오버워치</label>
         </div>
     </div>
@@ -181,7 +181,7 @@
     }
     // 페이지 로드 시 각 상위 키워드에 대해 하위 키워드 보여주기
     window.onload = function() {
-        var interests = document.querySelectorAll('.interests input[type="checkbox"]');
+        var interests = document.querySelectorAll('.interests input[type="radio"]');
         interests.forEach(function(interest) {
             if (interest.checked) {
                 var interestValue = interest.value;
