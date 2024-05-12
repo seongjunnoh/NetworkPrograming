@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <style>
+        /*<!--스타일 설정-->*/
+
+
+        .exit-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .exit-button:hover {
+            background-color: #cc0000;
+        }
+        /*<!--스타일 설정-->*/
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <h1 th:text="${team.teamName}">Chat Room</h1>
+    <ul class="chat-messages" id="chatMessages"></ul>
+    <form id="messageForm">
+        <textarea id="messageInput" class="message-input" rows="3" placeholder="메시지를 입력하세요..." required></textarea>
+        <button type="submit" class="message-send">Send</button>
+    </form>
+    <!-- Exit 버튼 추가 -->
+    <form action="/team/showAll" method="get">
+        <button type="submit" class="exit-button">Exit</button>
+    </form>
+
+    <input type="hidden" id="teamId" th:value="${team.id}"/>
+    <input type="hidden" id="userName" th:value="${user.name}"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</div>
+
+<script>
+    let socket = new SockJS("/stomp/chat");
+    let stompClient = Stomp.over(socket);
+    const teamId = document.querySelector('input#teamId').value;
+    const userName = document.querySelector('input#userName').value;
+
+    // connection이 맺어지면 실행될 메서드
+    stompClient.connect({}, function () {
+        console.log("STOMP connection");
+
+        stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
+            loadChatMessages(chat.body);
+        });
+
+        stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}))
+    });
+
+    function loadChatMessages(chat) {
+        console.log(chat);
+    }
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
+
