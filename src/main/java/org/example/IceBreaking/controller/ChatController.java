@@ -25,41 +25,14 @@ public class ChatController {
 
     @GetMapping("/chat/{teamId}")
     public String showChatRoom(@PathVariable("teamId") int teamId, Model model) {
-        List<Chat> chatList = chatRepository.findByTeamId(teamId);
-        // chatList 확인
-        for (Chat chat : chatList) {
-            System.out.println(chat.toString());
-        }
-
-        model.addAttribute("allChats", chatList);
-
         Optional<Team> team = teamRepository.findById(teamId);
-        model.addAttribute("teamName", team.get().getTeamName());
+        model.addAttribute("team", team.get());         // Optional에서 Team 객체만을 추출
 
-        return "/chat/chatRoom";
-    }
-
-    @PostMapping("/send-message/{teamId}")
-    public String sendMessage(@PathVariable("teamId") int teamId, @ModelAttribute("message") String message, RedirectAttributes attributes) {
-        // message 보내는 user의 이름 get
         User loginedUser = (User) httpSession.getAttribute("loginedUser");
-        String userName = loginedUser.getName();
+        model.addAttribute("user", loginedUser);
 
-        // parameter parsing 확인
-        System.out.println("message = " + message);
-
-        // Chat 객체 구성
-        Chat chat = new Chat(userName, message);
-
-        // Chat 객체 저장
-        chatRepository.saveByTeamId(teamId, chat);
-
-        // RedirectAttributes를 사용하여 teamId를 다음 페이지로 전달
-        attributes.addAttribute("teamId", teamId);
-
-        return "redirect:/chat/{teamId}";
+        return "/chat/chatRoomWebSocket";
     }
-
 
 
 }
