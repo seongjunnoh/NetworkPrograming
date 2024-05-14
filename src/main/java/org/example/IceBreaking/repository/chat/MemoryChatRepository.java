@@ -14,12 +14,13 @@ public class MemoryChatRepository implements ChatRepository {
     private final Map<Integer, ArrayList<Chat>> chatMap = new HashMap<>();
 
     @Override
-    public void saveByTeamId(int teamId, Chat chat) {
+    public void saveChat(int teamId, Chat chat) {
+        chatMap.computeIfAbsent(teamId, k -> new ArrayList<>());        // 신설 채팅방일 경우
         chatMap.get(teamId).add(chat);
     }
 
     @Override
-    public List<Chat> findByTeamId(int teamId) {
+    public List<Chat> findChatList(int teamId) {
         if (chatMap.get(teamId) == null) {
             ArrayList<Chat> newChats = new ArrayList<>();
             chatMap.put(teamId, newChats);

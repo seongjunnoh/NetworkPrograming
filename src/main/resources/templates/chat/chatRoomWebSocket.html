@@ -30,7 +30,7 @@
     <h1 th:text="${team.teamName}">Chat Room</h1>
     <ul class="chat-messages" id="chatMessages"></ul>
     <form id="messageForm">
-        <textarea id="messageInput" class="message-input" rows="3" placeholder="메시지를 입력하세요..." required></textarea>
+        <label for="msg"></label><input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요..."/>
         <button type="submit" class="message-send">Send</button>
     </form>
     <!-- Exit 버튼 추가 -->
@@ -57,14 +57,19 @@
         console.log("STOMP connection");
 
         stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
-            loadChatMessages(chat.body);
+            console.log(chat.body);
+
+            loadChatMessages();
         });
 
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}))
     });
 
-    function loadChatMessages(chat) {
-        console.log(chat);
+    const loadChatMessages = async () =>{
+        const url = `/api/chatList/${teamId}`;
+        const response = await axios.get(url);
+        console.log(response.data);
+
     }
 
 

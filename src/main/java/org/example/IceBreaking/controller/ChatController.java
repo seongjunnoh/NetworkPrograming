@@ -7,6 +7,8 @@ import org.example.IceBreaking.domain.Team;
 import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,12 @@ public class ChatController {
         return "/chat/chatRoomWebSocket";
     }
 
+    @GetMapping("/api/chatList/{teamId}")
+    @ResponseBody
+    public ResponseEntity<List<Chat>> getChatList(@PathVariable("teamId") int teamId) {
+        List<Chat> chatList = chatRepository.findChatList(teamId);
+        return new ResponseEntity<>(chatList, HttpStatus.OK);
+    }
 
 }
 

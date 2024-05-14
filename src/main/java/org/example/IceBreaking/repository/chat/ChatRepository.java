@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ChatRepository {
 
-    void saveByTeamId(int teamId, Chat chat);
-    List<Chat> findByTeamId(int teamId);
+    void saveChat(int teamId, Chat chat);
+    List<Chat> findChatList(int teamId);
 }
