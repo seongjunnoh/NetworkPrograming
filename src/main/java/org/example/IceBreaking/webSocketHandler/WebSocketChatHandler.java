@@ -41,45 +41,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
     }
 
+    @MessageMapping("/chat/message")
+    public void message(ConnectDto message) {
+        log.info("message(message = {})", message.toString());
 
-//    /**
-//     * 클라이언트가 접속 시 호출되는 메서드
-//     */
-//    @Override
-//    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//        log.info(session + " 클라이언트 접속");
-//
-//        sessionSet.add(session);
-//
-//        // session 확인용
-//        System.out.println("session = " + session);
-//    }
-//
-//    /**
-//     * 클라이언트가 접속 해제 시 호출되는 메서드
-//     */
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//        log.info(session + " 클라이언트 접속 해제");
-//
-//        // session 확인용
-//        System.out.println("session = " + session);
-//
-//        sessionSet.remove(session);
-//    }
-//
-//    /**
-//     * 채팅 message send 메서드
-//     */
-//    @Override
-//    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//        String payload = message.getPayload();          // payload : 전송되는 데이터
-//        log.info("payload : " + payload);
-//
-//        for (WebSocketSession sess : sessionSet) {
-//            sess.sendMessage(message);              // 연결된 각 session에 payload를 send
-//        }
-//    }
-
-
+    }
 }

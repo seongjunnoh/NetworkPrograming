@@ -30,8 +30,8 @@
     <h1 th:text="${team.teamName}">Chat Room</h1>
     <ul class="chat-messages" id="chatMessages"></ul>
     <form id="messageForm">
-        <label for="msg"></label><input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요..."/>
-        <button type="submit" class="message-send">Send</button>
+        <label for="msg"></label><input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
+        <button type="submit" class="message-send" id="btnSend">Send</button>
     </form>
     <!-- Exit 버튼 추가 -->
     <form action="/team/showAll" method="get">
@@ -72,6 +72,16 @@
 
     }
 
+    const sendMessage = (e) => {
+        const msg = document.querySelector('input#msg');
+        console.log(userName + ":" + msg.value);
+
+        stompClient.send("/pub/chat/message", {}, JSON.stringify({teamId: teamId, userName: userName, message: msg.value}));
+        msg.value = "";
+    }
+
+    const sendBtn = document.querySelector('button#btnSend');
+    sendBtn.addEventListener('click', sendMessage);
 
 
 
