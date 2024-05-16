@@ -158,13 +158,7 @@
         const url = `/api/chatList/${teamId}`;
         const response = await axios.get(url);
         console.log(response.data);
-<<<<<<< HEAD
         response.data.forEach(displayMessage);
-=======
-
-
-
->>>>>>> 65b522f4e5912f11ee93e1d722d508a9c50c0841
     }
 
     const sendMessage = (e) => {
@@ -192,12 +186,10 @@
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }
 
-<<<<<<< HEAD
     window.onload = loadChatMessages;
-=======
+
     loadChatMessages();
 
->>>>>>> 65b522f4e5912f11ee93e1d722d508a9c50c0841
 </script>
 </body>
 </html>
