@@ -71,6 +71,8 @@
         const response = await axios.get(url);
         console.log(response.data);
 
+
+
     }
 
     const sendMessage = (e) => {
@@ -85,8 +87,7 @@
     sendBtn.addEventListener('click', sendMessage);
 
 
-
-
+    loadChatMessages();
 
 </script>
 
