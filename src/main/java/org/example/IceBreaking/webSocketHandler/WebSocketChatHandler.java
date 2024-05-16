@@ -45,5 +45,10 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     public void message(ConnectDto message) {
         log.info("message(message = {})", message.toString());
 
+        // chat 저장
+        Chat chat = new Chat(message.getUserName(), message.getMessage());
+        chatRepository.saveChat(message.getTeamId(), chat);
+
+        template.convertAndSend("/sub/chat/room/" + message.getTeamId(), message);
     }
 }
