@@ -29,7 +29,8 @@
 <div class="chat-container">
     <h1 th:text="${team.teamName}">Chat Room</h1>
     <ul class="chat-messages" id="chatMessages"></ul>
-    <div id="message">
+    <div id="messages" style="height: 700px;"></div>
+    <div>
         <label for="msg"></label>
         <input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
         <button type="button" class="message-send" id="btnSend">Send</button>
@@ -71,8 +72,42 @@
         const response = await axios.get(url);
         console.log(response.data);
 
+        let htmlStr = "";
+        for (let chat of response.data) {
+            if (chat.userName === userName) {
+                console.log(chat.userName);
+                console.log(chat.message);
+                htmlStr += `
+					<div class="d-flex align-items-center alert alert-warning border border-dark">
+					  <div class="flex-shrink-0">
+					    <img src="https://storage.googleapis.com/itwill-forest-bucket/bd64b031-42c8-4229-a734-b8d25f0fd9f0" alt="..." style="width: 50px; height: 50px;">
+					  </div>
+					  <div class="flex-grow-1 ms-3">
+					    <h5>${chat.userName}</h5>
+					    <p>${chat.message}</p>
+					  </div>
+					</div>
+				`;
+            } else {
+                console.log(chat.userName);
+                console.log(chat.message);
+                htmlStr += `
+					<div class="d-flex align-items-center alert alert-primary border border-dark">
+					  <div class="flex-shrink-0">
+					    <img src="https://storage.googleapis.com/itwill-forest-bucket/bd64b031-42c8-4229-a734-b8d25f0fd9f0" alt="..." style="width: 50px; height: 50px;">
+					  </div>
+					  <div class="flex-grow-1 ms-3">
+					    <h5>${chat.userName}</h5>
+					    <p>${chat.message}</p>
+					  </div>
+					</div>
+				`;
+            }
 
-
+            const messageArea = document.querySelector('div#messages');
+            messageArea.innerHTML = htmlStr;
+            messageArea.scrollTop = messageArea.scrollHeight;
+        }
     }
 
     const sendMessage = (e) => {
