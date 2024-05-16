@@ -3,10 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet">
     <title>Chat Room</title>
     <style>
-        /*<!--스타일 설정-->*/
+        body {
+            font-family: NanumSquareNeo, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
 
+        .chat-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #3D96FF;
+            margin-bottom: 20px;
+        }
+
+        .chat-messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            border-bottom: 2px solid #f2f2f2;
+            margin-bottom: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 75%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .chat-message.others {
+            background-color: #E6F7FF;
+            margin-right: auto;
+        }
+
+        .chat-message.user {
+            background-color: #3D96FF;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .chat-message .message-info {
+            display: block;
+            font-size: 0.8em;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .message-input {
+            width: calc(100% - 110px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+            resize: none;
+            box-sizing: border-box;
+            float: left;
+        }
+
+        .message-send {
+            width: 80px;
+            margin-left: 10px;
+            padding: 10px;
+            background-color: #64D8FF;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            float: left;
+        }
+
+        .message-send:hover {
+            background-color: #3D96FF;
+        }
 
         .exit-button {
             margin-top: 10px;
@@ -17,27 +104,28 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            clear: both;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .exit-button:hover {
             background-color: #cc0000;
         }
-        /*<!--스타일 설정-->*/
     </style>
 </head>
 <body>
 <div class="chat-container">
     <h1 th:text="${team.teamName}">Chat Room</h1>
     <ul class="chat-messages" id="chatMessages"></ul>
-    <div id="messages" style="height: 700px;"></div>
-    <div>
-        <label for="msg"></label>
+    <div id="message">
         <input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
-        <button type="button" class="message-send" id="btnSend">Send</button>
+        <button type="button" class="message-send" id="btnSend">전송</button>
     </div>
     <!-- Exit 버튼 추가 -->
     <form action="/team/showAll" method="get">
-        <button type="submit" class="exit-button">Exit</button>
+        <button type="submit" class="exit-button">나가기</button>
     </form>
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
@@ -60,53 +148,22 @@
 
         stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
             console.log(chat.body);
-
-            loadChatMessages();
+            displayMessage(JSON.parse(chat.body));
         });
 
-        stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}))
+        stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
     });
 
-    const loadChatMessages = async () =>{
+    const loadChatMessages = async () => {
         const url = `/api/chatList/${teamId}`;
         const response = await axios.get(url);
         console.log(response.data);
-
-        let htmlStr = "";
-        for (let chat of response.data) {
-            if (chat.userName === userName) {
-                console.log(chat.userName);
-                console.log(chat.message);
-                htmlStr += `
-					<div class="d-flex align-items-center alert alert-warning border border-dark">
-					  <div class="flex-grow-1 ms-3">
-					    <h5>${chat.userName}</h5>
-					    <p>${chat.message}</p>
-					  </div>
-					</div>
-				`;
-            } else {
-                console.log(chat.userName);
-                console.log(chat.message);
-                htmlStr += `
-					<div class="d-flex align-items-center alert alert-primary border border-dark">
-					  <div class="flex-grow-1 ms-3">
-					    <h5>${chat.userName}</h5>
-					    <p>${chat.message}</p>
-					  </div>
-					</div>
-				`;
-            }
-
-            const messageArea = document.querySelector('div#messages');
-            messageArea.innerHTML = htmlStr;
-            messageArea.scrollTop = messageArea.scrollHeight;
-        }
+        response.data.forEach(displayMessage);
     }
 
     const sendMessage = (e) => {
         const msg = document.querySelector('input#msg');
-        console.log(userName + ":" + msg.value);
+        console.log(userName + ": " + msg.value);
 
         stompClient.send("/pub/chat/message", {}, JSON.stringify({teamId: teamId, userName: userName, message: msg.value}));
         msg.value = "";
@@ -115,11 +172,24 @@
     const sendBtn = document.querySelector('button#btnSend');
     sendBtn.addEventListener('click', sendMessage);
 
+    const displayMessage = (message) => {
+        const chatMessages = document.getElementById('chatMessages');
+        const newMessage = document.createElement('li');
+        newMessage.classList.add('chat-message');
+        if (message.userName === userName) {
+            newMessage.classList.add('user');
+        } else {
+            newMessage.classList.add('others');
+        }
+        newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${new Date(message.timestamp).toLocaleTimeString()}</span>`;
+        chatMessages.appendChild(newMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
+    }
+
+    window.onload = loadChatMessages;
 
     loadChatMessages();
 
 </script>
-
 </body>
 </html>
-
