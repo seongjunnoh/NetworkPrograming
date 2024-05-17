@@ -3,9 +3,11 @@ package org.example.IceBreaking.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Chat;
+import org.example.IceBreaking.domain.Question;
 import org.example.IceBreaking.domain.Team;
 import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.chat.ChatRepository;
+import org.example.IceBreaking.repository.question.QuestionRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class ChatController {
     private final ChatRepository chatRepository;
     private final TeamRepository teamRepository;
     private final HttpSession httpSession;
+    private final QuestionRepository questionRepository;
 
     @GetMapping("/chat/{teamId}")
     public String showChatRoom(@PathVariable("teamId") int teamId, Model model) {
@@ -45,6 +48,13 @@ public class ChatController {
     public ResponseEntity<List<Chat>> getChatList(@PathVariable("teamId") int teamId) {
         List<Chat> chatList = chatRepository.findChatList(teamId);
         return new ResponseEntity<>(chatList, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/question")
+    @ResponseBody
+    public ResponseEntity<Question> getQuestion() {
+        Question welcomeQuestion = questionRepository.findWelcomeQuestion();
+        return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
     }
 
 }

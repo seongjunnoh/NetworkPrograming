@@ -27,6 +27,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     private final SimpMessagingTemplate template;
     private final ChatRepository chatRepository;
+    private final static String chatBot = "IceBreaker";
 
     @MessageMapping("/chat/enter")
     public void enter(ConnectDto connectDto) {
@@ -48,5 +49,18 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         chatRepository.saveChat(message.getTeamId(), chat);
 
         template.convertAndSend("/sub/chat/room/" + message.getTeamId(), message);
+    }
+
+    @MessageMapping("/chat/question")
+    public void question(ConnectDto question) {
+        log.info("question(question = {})", question.toString());
+
+        question.setUserName(chatBot);
+
+        // chat 저장
+        Chat chat = new Chat(question.getUserName(), question.getMessage());
+        chatRepository.saveChat(question.getTeamId(), chat);
+
+        template.convertAndSend("/sub/chat/room/" + question.getTeamId(), question);
     }
 }
