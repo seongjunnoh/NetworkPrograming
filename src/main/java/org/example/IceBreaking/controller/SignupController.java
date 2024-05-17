@@ -26,15 +26,15 @@ public class SignupController {
 
         // 검증용
         // 회원가입한 유저들의 정보를 콘솔에 print
-        Optional<User> savedUser = userRepository.findById(user.getUserId());
-        System.out.println("savedUser.get().getId() = " + savedUser.get().getId());
-        System.out.println("savedUser.get().getUserId() = " + savedUser.get().getUserId());
-        System.out.println("savedUser.get().getPassword() = " + savedUser.get().getPassword());
-        System.out.println("savedUser.get().getName() = " + savedUser.get().getName());
-        System.out.println("savedUser.get().getDepartment() = " + savedUser.get().getDepartment());
-        System.out.println("savedUser.get().getStudentId() = " + savedUser.get().getStudentId());
-        System.out.println("savedUser.get().getInterest() = " + savedUser.get().getInterest());
-        System.out.println("savedUser.get().getSubInterest() = " + savedUser.get().getSubInterest());
+        User savedUser = userRepository.findById(user.getUserId());
+        System.out.println("savedUser.get().getId() = " + savedUser.getId());
+        System.out.println("savedUser.get().getUserId() = " + savedUser.getUserId());
+        System.out.println("savedUser.get().getPassword() = " + savedUser.getPassword());
+        System.out.println("savedUser.get().getName() = " + savedUser.getName());
+        System.out.println("savedUser.get().getDepartment() = " + savedUser.getDepartment());
+        System.out.println("savedUser.get().getStudentId() = " + savedUser.getStudentId());
+        System.out.println("savedUser.get().getInterest() = " + savedUser.getInterest());
+        System.out.println("savedUser.get().getSubInterest() = " + savedUser.getSubInterest());
 
         return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }

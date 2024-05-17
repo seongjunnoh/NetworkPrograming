@@ -16,8 +16,8 @@ public class MemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(String userId) {
-        return Optional.ofNullable(userMap.get(userId));
+    public User findById(String userId) {
+        return userMap.get(userId);
     }
 
     @Override
@@ -26,10 +26,17 @@ public class MemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void changeUserInfo(User user) {
+    public User changeUserInfo(User user) {
         if (userMap.get(user.getUserId()) != null) {
+            User beforeChangeUser = userMap.get(user.getUserId());
+            user.setIdForEdit(beforeChangeUser.getId());        // id값 set
+
             userMap.put(user.getUserId(), user);
+
+            return userMap.get(user.getUserId());
         }
+
+        return null;
     }
 
 
