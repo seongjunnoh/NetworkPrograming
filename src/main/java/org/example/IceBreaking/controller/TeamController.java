@@ -1,7 +1,9 @@
 package org.example.IceBreaking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Team;
+import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.team.TeamRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.List;
 public class TeamController {
 
     private final TeamRepository teamRepository;
+    private final HttpSession httpSession;
 
     @GetMapping("/team/showCreateForm")
     public String showCreateTeamForm() {
@@ -26,6 +29,10 @@ public class TeamController {
     public String createTeam(@RequestParam("teamName") String teamName) {
         Team team = new Team(teamName);
         teamRepository.save(team);
+
+        // 팀플방 생성한 User의 id값 저장
+        User teamCreator = (User) httpSession.getAttribute("loginedUser");
+        teamRepository.saveTeamCreator(team.getId(), teamCreator.getId());
 
         return "redirect:/";            // 홈화면으로 redirect
     }

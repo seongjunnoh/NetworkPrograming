@@ -33,6 +33,10 @@ public class ChatController {
         User loginedUser = (User) httpSession.getAttribute("loginedUser");
         model.addAttribute("user", loginedUser);
 
+        int teamCreatorId = teamRepository.findTeamCreatorId(teamId);
+        System.out.println("teamCreatorId = " + teamCreatorId);
+        model.addAttribute("teamCreatorId", teamCreatorId);
+
         return "/chat/chatRoomWebSocket";
     }
 

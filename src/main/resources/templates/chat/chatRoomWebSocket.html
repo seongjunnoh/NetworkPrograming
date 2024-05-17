@@ -130,6 +130,7 @@
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
     <input type="hidden" id="userName" th:value="${user.name}"/>
+    <input type="hidden" id="teamCreatorId" th:value="${teamCreatorId}"/>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -148,8 +149,8 @@
 
         stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
             console.log(chat.body);
+
             displayMessage(JSON.parse(chat.body));
-            // loadChatMessages();
         });
 
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
@@ -159,6 +160,7 @@
         const url = `/api/chatList/${teamId}`;
         const response = await axios.get(url);
         console.log(response.data);
+
         response.data.forEach(displayMessage);
     }
 
@@ -188,8 +190,6 @@
     }
 
     window.onload = loadChatMessages;
-
-    // loadChatMessages();
 
 </script>
 </body>
