@@ -6,13 +6,19 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class MemoryTeamRepository implements TeamRepository{
+public class MemoryTeamRepository implements TeamRepository {
 
     private final Map<Integer, Team> teamMap = new HashMap<>();
+    private final Map<Integer, Integer> teamCreatorMap = new HashMap<>();
 
     @Override
     public void save(Team team) {
         teamMap.put(team.getId(), team);
+    }
+
+    @Override
+    public void saveTeamCreator(int teamId, int userId) {
+        teamCreatorMap.put(teamId, userId);
     }
 
     @Override
@@ -23,5 +29,10 @@ public class MemoryTeamRepository implements TeamRepository{
     @Override
     public Optional<Team> findById(int teamId) {
         return Optional.ofNullable(teamMap.get(teamId));
+    }
+
+    @Override
+    public int findTeamCreatorId(int teamId) {
+        return teamCreatorMap.get(teamId);
     }
 }

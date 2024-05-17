@@ -12,7 +12,7 @@ public class User {
     private static int nextId = 1;
 
     private int id;                 // User 객체 고유의 id
-    private String userId;
+    private String userId;          // 로그인시 필요한 userId
     private String password;
     private String name;
     private String department;      // 학과
