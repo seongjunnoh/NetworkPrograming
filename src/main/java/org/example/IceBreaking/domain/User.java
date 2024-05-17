@@ -24,6 +24,10 @@ public class User {
         this.id = nextId++;
     }
 
+    public void setIdForEdit(int id) {
+        this.id = id;
+    }
+
     public boolean matchPassword(String password) {
         if (password == null) {
             return false;

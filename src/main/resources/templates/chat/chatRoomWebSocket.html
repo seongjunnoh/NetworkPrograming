@@ -126,7 +126,7 @@
     </div>
     <!-- Exit 버튼 추가 -->
     <form action="/team/showAll" method="get">
-        <button type="submit" class="exit-button">나가기</button>
+        <button type="submit" class="exit-button" id="btnExit">나가기</button>
     </form>
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
@@ -210,6 +210,8 @@
 
     const questionBtn = document.querySelector('button#btnQuestion');
     questionBtn.addEventListener('click', askQuestion);
+
+
 
 </script>
 </body>

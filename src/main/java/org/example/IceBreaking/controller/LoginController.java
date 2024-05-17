@@ -27,13 +27,13 @@ public class LoginController {
     public String userLogin(@RequestParam("userId") String userId,
                             @RequestParam("password") String password) {
 
-        Optional<User> loginedUser = userRepository.findById(userId);
-        if (loginedUser.isEmpty() || !loginedUser.get().matchPassword(password)) {
+        User loginedUser = userRepository.findById(userId);
+        if (loginedUser == null || !loginedUser.matchPassword(password)) {
             // 로그인 실패
             return "/user/login_failed";
         } else {
             // 로그인 성공
-            httpSession.setAttribute("loginedUser", loginedUser.get());
+            httpSession.setAttribute("loginedUser", loginedUser);
             return "redirect:/";
         }
     }
