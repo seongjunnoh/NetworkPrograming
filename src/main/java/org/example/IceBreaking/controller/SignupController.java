@@ -2,7 +2,10 @@ package org.example.IceBreaking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.User;
+import org.example.IceBreaking.domain.ValidateUserIdDto;
 import org.example.IceBreaking.repository.user.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +40,19 @@ public class SignupController {
 
         return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }
+
+    @PostMapping("/signup/id-check")
+    @ResponseBody
+    public ResponseEntity<Boolean> validateUserId(@RequestBody ValidateUserIdDto validateUserIdDto) {
+        System.out.println("validateUserIdDto.getUserId() = " + validateUserIdDto.getUserId());
+        
+        if (userRepository.findById(validateUserIdDto.getUserId()) != null) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+    }
+
 }
 
 

@@ -81,6 +81,21 @@
         input[type="submit"]:hover {
             background-color: #4db8ff;
         }
+
+        button#checkUserIdBtn {
+            background-color: #64d8ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px; /* 버튼과 입력 필드 사이에 간격 추가 */
+        }
+
+        button#checkUserIdBtn:hover {
+            background-color: #4db8ff;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +103,8 @@
 <form action="/signup" method="post" onsubmit="return validateForm()">
     <label for="userId">아이디:</label>
     <input type="text" id="userId" name="userId" required>
+    <!--아이디 중복 확인-->
+    <button type="button" id="checkUserIdBtn" onclick="checkUserId()">아이디 중복 체크</button>
 
     <label for="password">비밀번호:</label>
     <input type="password" id="password" name="password" required>
@@ -114,6 +131,8 @@
     <input type="submit" value="완료">
 
     <script>
+        let idCheck = false;
+
         document.addEventListener('DOMContentLoaded', () => {
             const checkboxes = document.querySelectorAll('.interests input[type="checkbox"]');
 
@@ -134,6 +153,44 @@
                 alert("1개 이상의 키워드를 선택하세요.");
                 return false;
             }
+
+            if (idCheck === false) {
+                alert("아이디 중복 검사를 하세요.");
+                return false;
+            }
+        }
+
+        function checkUserId() {
+            const userId = document.getElementById('userId').value;
+            if (userId.trim() === '') {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            // 아이디 중복 체크를 위한 AJAX 요청
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/signup/id-check', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ userId: userId }));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+
+                        console.log(response);
+
+                        if (response === true) {
+                            idCheck = true;
+                            alert("사용 가능한 아이디입니다.");
+                        } else {
+                            alert("이미 사용 중인 아이디입니다.");
+                        }
+                    } else {
+                        alert("요청을 처리하는 도중 오류가 발생했습니다.");
+                    }
+                }
+            };
         }
     </script>
 
