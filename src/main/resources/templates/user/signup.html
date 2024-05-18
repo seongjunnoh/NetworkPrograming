@@ -54,7 +54,7 @@
 
         .interests {
             display: flex;
-            justify-content: flex-start;
+            flex-wrap: wrap;
             margin-bottom: 15px;
         }
 
@@ -62,17 +62,9 @@
             margin-right: 15px;
         }
 
-        .sub-interests {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .sub-interests label {
-            margin-right: 15px;
-        }
-
-        .sub-interests-group {
-            display: flex;
+        .interest-heading {
+            margin-bottom: 10px;
+            color: #333;
         }
 
         input[type="submit"] {
@@ -109,68 +101,34 @@
     <label for="studentId">학번:</label>
     <input type="text" id="studentId" name="studentId" required>
 
+    <p class="interest-heading">관심있는 키워드를 최대 3개 선택하세요:</p>
     <div class="interests">
-        <label>관심사:</label>
-        <input type="radio" id="sports" name="interest" value="sports" onchange="showSubInterests('sports')">
-        <label for="sports">스포츠</label>
-
-        <input type="radio" id="movie" name="interest" value="movie" onchange="showSubInterests('movie')">
-        <label for="movie">영화</label>
-
-        <input type="radio" id="games" name="interest" value="games" onchange="showSubInterests('games')">
-        <label for="games">게임</label>
-    </div>
-
-    <div class="sub-interests" id="subSports">
-        <label>스포츠:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="축구">
-            <label for="soccer">축구</label>
-            <input type="radio" name="subInterest" value="야구">
-            <label for="baseball">야구</label>
-            <input type="radio" name="subInterest" value="농구">
-            <label for="basketball">농구</label>
-        </div>
-    </div>
-
-    <div class="sub-interests" id="subMovie">
-        <label>영화:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="로맨스">
-            <label for="romance">로맨스</label>
-            <input type="radio" name="subInterest" value="액션">
-            <label for="action">액션</label>
-            <input type="radio" name="subInterest" value="SF">
-            <label for="sf">SF</label>
-        </div>
-    </div>
-
-    <div class="sub-interests" id="subGames">
-        <label>게임:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="롤">
-            <label for="lol">롤</label>
-            <input type="radio" name="subInterest" value="배그">
-            <label for="pubg">배그</label>
-            <input type="radio" name="subInterest" value="오버워치">
-            <label for="overwatch">오버워치</label>
-        </div>
+        <label><input type="checkbox" name="interests" value="sports"> 스포츠</label>
+        <label><input type="checkbox" name="interests" value="shopping"> 쇼핑</label>
+        <label><input type="checkbox" name="interests" value="movies"> 영화</label>
+        <label><input type="checkbox" name="interests" value="games"> 게임</label>
+        <label><input type="checkbox" name="interests" value="reading"> 독서</label>
+        <label><input type="checkbox" name="interests" value="youtube"> 유튜브 시청</label>
     </div>
 
     <input type="submit" value="완료">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.interests input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const checkedCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
+                    if (checkedCount > 3) {
+                        checkbox.checked = false;
+                        alert("최대 3개의 키워드를 선택할 수 있습니다.");
+                    }
+                });
+            });
+        });
+    </script>
+
 </form>
-
-<script>
-    function showSubInterests(interest) {
-        var subInterestDiv = document.getElementById('sub' + interest.charAt(0).toUpperCase() + interest.slice(1));
-        var interestCheckbox = document.getElementById(interest);
-
-        if (interestCheckbox.checked) {
-            subInterestDiv.style.display = 'block';
-        } else {
-            subInterestDiv.style.display = 'none';
-        }
-    }
-</script>
 </body>
 </html>
