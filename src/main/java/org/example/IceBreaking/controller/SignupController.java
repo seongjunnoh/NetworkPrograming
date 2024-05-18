@@ -6,7 +6,7 @@ import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,8 +33,7 @@ public class SignupController {
         System.out.println("savedUser.get().getName() = " + savedUser.getName());
         System.out.println("savedUser.get().getDepartment() = " + savedUser.getDepartment());
         System.out.println("savedUser.get().getStudentId() = " + savedUser.getStudentId());
-        System.out.println("savedUser.get().getInterest() = " + savedUser.getInterest());
-        System.out.println("savedUser.get().getSubInterest() = " + savedUser.getSubInterest());
+        System.out.println("savedUser.get().getInterests() = " + Arrays.toString(savedUser.getInterests()));
 
         return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }
