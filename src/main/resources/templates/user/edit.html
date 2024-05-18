@@ -89,7 +89,7 @@
 </head>
 <body>
 <h2>프로필 수정</h2>
-<form action="/user/edit" method="post">
+<form action="/user/edit" method="post" onsubmit="return validateForm()">
     <div>
         <label for="userId">아이디:</label>
         <input type="text" id="userId" name="userId" th:value="${user.userId}" readonly>
@@ -142,6 +142,14 @@
                 });
             });
         });
+
+        function validateForm() {
+            const checkCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
+            if (checkCount === 0) {
+                alert("1개 이상의 키워드를 선택하세요.");
+                return false;
+            }
+        }
     </script>
 </form>
 </body>
