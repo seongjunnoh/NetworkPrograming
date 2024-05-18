@@ -63,4 +63,15 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
         template.convertAndSend("/sub/chat/room/" + question.getTeamId(), question);
     }
+
+    @MessageMapping("/chat/exit")
+    public void exit(ConnectDto connectDto) {
+        connectDto.setMessage(connectDto.getUserName() + "님이 나갔습니다.");
+
+        // chat 저장
+        Chat exitChat = new Chat(connectDto.getUserName(), connectDto.getMessage());
+        chatRepository.saveChat(connectDto.getTeamId(), exitChat);
+
+        template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
+    }
 }
