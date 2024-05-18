@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class EditController {
@@ -41,8 +43,7 @@ public class EditController {
         System.out.println("editUser.get().getName() = " + editUser.getName());
         System.out.println("editUser.get().getDepartment() = " + editUser.getDepartment());
         System.out.println("editUser.get().getStudentId() = " + editUser.getStudentId());
-        System.out.println("editUser.get().getInterest() = " + editUser.getInterest());
-        System.out.println("editUser.get().getSubInterest() = " + editUser.getSubInterest());
+        System.out.println("Arrays.toString(editUser.getInterests()) = " + Arrays.toString(editUser.getInterests()));
         
         return "redirect:/";            // 홈화면으로 redirect
     }

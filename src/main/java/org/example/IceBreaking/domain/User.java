@@ -16,8 +16,7 @@ public class User {
     private String name;
     private String department;      // 학과
     private String studentId;       // 학번
-    private String interest;        // 관심사(상위 키워드)
-    private String subInterest;     // 관심사(하위 키워드)
+    private String[] interests;     // 관심사 키워드 list
 
     public void setId() {
         this.id = nextId++;
