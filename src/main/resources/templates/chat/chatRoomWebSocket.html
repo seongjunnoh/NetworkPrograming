@@ -125,13 +125,13 @@
         <button type="button" class="ask-question" id="btnQuestion" style="display: none">질문생성</button>
     </div>
     <!-- Exit 버튼 추가 -->
-    <form action="/team/showAll" method="get">
+    <form action="/team/showAll" method="get" onclick="exitChatRoom()">
         <button type="submit" class="exit-button" id="btnExit">나가기</button>
     </form>
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
     <input type="hidden" id="userName" th:value="${user.name}"/>
-    <input type="hidden" id="userId" th:value="${user.id}"/>
+    <input type="hidden" id="userId" th:value="${user.id}"/>        <!--user.userId로 변경해야할듯-->
     <input type="hidden" id="teamCreatorId" th:value="${teamCreatorId}"/>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -146,6 +146,10 @@
     const userName = document.querySelector('input#userName').value;
     const userId = document.querySelector('input#userId').value;
     const teamCreatorId = document.querySelector('input#teamCreatorId').value;
+
+    // 입장한 user의 관심사 get
+    const interests = await axios.get('url');
+
 
     // teamCreator에게만 '질문생성' 버튼 보이도록 설정
     if (userId === teamCreatorId) {
@@ -210,6 +214,11 @@
 
     const questionBtn = document.querySelector('button#btnQuestion');
     questionBtn.addEventListener('click', askQuestion);
+
+    // 나가기 버튼 클릭시 채팅방 화면에 퇴장 메시지 출력
+    const exitChatRoom = () => {
+        stompClient.send("/pub/chat/exit", {}, JSON.stringify({teamId: teamId, userName: userName}))
+    };
 
 </script>
 </body>

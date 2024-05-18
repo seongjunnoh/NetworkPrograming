@@ -9,6 +9,7 @@ import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.question.QuestionRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
+import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class ChatController {
     private final TeamRepository teamRepository;
     private final HttpSession httpSession;
     private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/chat/{teamId}")
     public String showChatRoom(@PathVariable("teamId") int teamId, Model model) {
@@ -56,5 +58,11 @@ public class ChatController {
         return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
     }
 
+    @GetMapping("/api/interests/{userId}")
+    @ResponseBody
+    public ResponseEntity<String[]> getInterests(@PathVariable("userId") String userId) {
+        User user = userRepository.findById(userId);
+        return new ResponseEntity<>(user.getInterests(), HttpStatus.OK);
+    }
 }
 
