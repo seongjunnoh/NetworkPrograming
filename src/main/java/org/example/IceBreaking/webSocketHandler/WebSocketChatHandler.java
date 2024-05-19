@@ -25,10 +25,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class WebSocketChatHandler extends TextWebSocketHandler {
 
-    //    private final Set<WebSocketSession> sessionSet = new HashSet<>();         // 현재 연결된 세션들
     private final SimpMessagingTemplate template;
     private final ChatRepository chatRepository;
-    private final HttpSession httpSession;
+    private final static String chatBot = "IceBreaker";
 
     @MessageMapping("/chat/enter")
     public void enter(ConnectDto connectDto) {
@@ -50,5 +49,29 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         chatRepository.saveChat(message.getTeamId(), chat);
 
         template.convertAndSend("/sub/chat/room/" + message.getTeamId(), message);
+    }
+
+    @MessageMapping("/chat/question")
+    public void question(ConnectDto question) {
+        log.info("question(question = {})", question.toString());
+
+        question.setUserName(chatBot);
+
+        // chat 저장
+        Chat chat = new Chat(question.getUserName(), question.getMessage());
+        chatRepository.saveChat(question.getTeamId(), chat);
+
+        template.convertAndSend("/sub/chat/room/" + question.getTeamId(), question);
+    }
+
+    @MessageMapping("/chat/exit")
+    public void exit(ConnectDto connectDto) {
+        connectDto.setMessage(connectDto.getUserName() + "님이 나갔습니다.");
+
+        // chat 저장
+        Chat exitChat = new Chat(connectDto.getUserName(), connectDto.getMessage());
+        chatRepository.saveChat(connectDto.getTeamId(), exitChat);
+
+        template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
     }
 }

@@ -54,7 +54,7 @@
 
         .interests {
             display: flex;
-            justify-content: flex-start;
+            flex-wrap: wrap;
             margin-bottom: 15px;
         }
 
@@ -62,17 +62,9 @@
             margin-right: 15px;
         }
 
-        .sub-interests {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .sub-interests label {
-            margin-right: 15px;
-        }
-
-        .sub-interests-group {
-            display: flex;
+        .interest-heading {
+            margin-bottom: 10px;
+            color: #333;
         }
 
         input[type="submit"] {
@@ -89,13 +81,30 @@
         input[type="submit"]:hover {
             background-color: #4db8ff;
         }
+
+        button#checkUserIdBtn {
+            background-color: #64d8ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px; /* 버튼과 입력 필드 사이에 간격 추가 */
+        }
+
+        button#checkUserIdBtn:hover {
+            background-color: #4db8ff;
+        }
     </style>
 </head>
 <body>
 <h2>회원가입</h2>
-<form action="/signup" method="post">
+<form action="/signup" method="post" onsubmit="return validateForm()">
     <label for="userId">아이디:</label>
     <input type="text" id="userId" name="userId" required>
+    <!--아이디 중복 확인-->
+    <button type="button" id="checkUserIdBtn" onclick="checkUserId()">아이디 중복 체크</button>
 
     <label for="password">비밀번호:</label>
     <input type="password" id="password" name="password" required>
@@ -109,68 +118,82 @@
     <label for="studentId">학번:</label>
     <input type="text" id="studentId" name="studentId" required>
 
+    <p class="interest-heading">관심있는 키워드를 최대 3개 선택하세요:</p>
     <div class="interests">
-        <label>관심사:</label>
-        <input type="radio" id="sports" name="interest" value="sports" onchange="showSubInterests('sports')">
-        <label for="sports">스포츠</label>
-
-        <input type="radio" id="movie" name="interest" value="movie" onchange="showSubInterests('movie')">
-        <label for="movie">영화</label>
-
-        <input type="radio" id="games" name="interest" value="games" onchange="showSubInterests('games')">
-        <label for="games">게임</label>
-    </div>
-
-    <div class="sub-interests" id="subSports">
-        <label>스포츠:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="축구">
-            <label for="soccer">축구</label>
-            <input type="radio" name="subInterest" value="야구">
-            <label for="baseball">야구</label>
-            <input type="radio" name="subInterest" value="농구">
-            <label for="basketball">농구</label>
-        </div>
-    </div>
-
-    <div class="sub-interests" id="subMovie">
-        <label>영화:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="로맨스">
-            <label for="romance">로맨스</label>
-            <input type="radio" name="subInterest" value="액션">
-            <label for="action">액션</label>
-            <input type="radio" name="subInterest" value="SF">
-            <label for="sf">SF</label>
-        </div>
-    </div>
-
-    <div class="sub-interests" id="subGames">
-        <label>게임:</label>
-        <div class="sub-interests-group">
-            <input type="radio" name="subInterest" value="롤">
-            <label for="lol">롤</label>
-            <input type="radio" name="subInterest" value="배그">
-            <label for="pubg">배그</label>
-            <input type="radio" name="subInterest" value="오버워치">
-            <label for="overwatch">오버워치</label>
-        </div>
+        <label><input type="checkbox" name="interests" value="sports"> 스포츠</label>
+        <label><input type="checkbox" name="interests" value="shopping"> 쇼핑</label>
+        <label><input type="checkbox" name="interests" value="movies"> 영화</label>
+        <label><input type="checkbox" name="interests" value="games"> 게임</label>
+        <label><input type="checkbox" name="interests" value="reading"> 독서</label>
+        <label><input type="checkbox" name="interests" value="youtube"> 유튜브 시청</label>
     </div>
 
     <input type="submit" value="완료">
-</form>
 
-<script>
-    function showSubInterests(interest) {
-        var subInterestDiv = document.getElementById('sub' + interest.charAt(0).toUpperCase() + interest.slice(1));
-        var interestCheckbox = document.getElementById(interest);
+    <script>
+        let idCheck = false;
 
-        if (interestCheckbox.checked) {
-            subInterestDiv.style.display = 'block';
-        } else {
-            subInterestDiv.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.interests input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const checkedCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
+                    if (checkedCount > 3) {
+                        checkbox.checked = false;
+                        alert("최대 3개의 키워드를 선택할 수 있습니다.");
+                    }
+                });
+            });
+        });
+
+        function validateForm() {
+            const checkCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
+            if (checkCount === 0) {
+                alert("1개 이상의 키워드를 선택하세요.");
+                return false;
+            }
+
+            if (idCheck === false) {
+                alert("아이디 중복 검사를 하세요.");
+                return false;
+            }
         }
-    }
-</script>
+
+        function checkUserId() {
+            const userId = document.getElementById('userId').value;
+            if (userId.trim() === '') {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            // 아이디 중복 체크를 위한 AJAX 요청
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/signup/id-check', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ userId: userId }));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+
+                        console.log(response);
+
+                        if (response === true) {
+                            idCheck = true;
+                            alert("사용 가능한 아이디입니다.");
+                        } else {
+                            alert("이미 사용 중인 아이디입니다.");
+                        }
+                    } else {
+                        alert("요청을 처리하는 도중 오류가 발생했습니다.");
+                    }
+                }
+            };
+        }
+    </script>
+
+</form>
 </body>
 </html>

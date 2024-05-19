@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class EditController {
@@ -29,19 +31,19 @@ public class EditController {
 
     @PostMapping("/user/edit")
     public String editUserInfo(@ModelAttribute User user, HttpSession httpSession) {
-        userRepository.changeUserInfo(user);
+        User editUser = userRepository.changeUserInfo(user);
 
         // 세션 정보 update
-        httpSession.setAttribute("loginedUser", user);
+        httpSession.setAttribute("loginedUser", editUser);
 
         // 수정 정보 확인
-        System.out.println("user.getUserId() = " + user.getUserId());
-        System.out.println("user.getPassword() = " + user.getPassword());
-        System.out.println("user.getName() = " + user.getName());
-        System.out.println("user.getDepartment() = " + user.getDepartment());
-        System.out.println("user.getStudentId() = " + user.getStudentId());
-        System.out.println("user.getInterest() = " + user.getInterest());
-        System.out.println("user.getSubInterest() = " + user.getSubInterest());
+        System.out.println("editUser.get().getId() = " + editUser.getId());
+        System.out.println("editUser.get().getUserId() = " + editUser.getUserId());
+        System.out.println("editUser.get().getPassword() = " + editUser.getPassword());
+        System.out.println("editUser.get().getName() = " + editUser.getName());
+        System.out.println("editUser.get().getDepartment() = " + editUser.getDepartment());
+        System.out.println("editUser.get().getStudentId() = " + editUser.getStudentId());
+        System.out.println("Arrays.toString(editUser.getInterests()) = " + Arrays.toString(editUser.getInterests()));
         
         return "redirect:/";            // 홈화면으로 redirect
     }

@@ -9,10 +9,10 @@ public interface UserRepository {
 
     void save(User user);
 
-    Optional<User> findById(String userId);
+    User findById(String userId);
 
     List<User> findAll();
 
-    void changeUserInfo(User user);
+    User changeUserInfo(User user);
 
 }
