@@ -53,7 +53,7 @@ public class ChatController {
 
     @GetMapping("/api/welcomeQuestion")
     @ResponseBody
-    public ResponseEntity<Question> getQuestion() {
+    public ResponseEntity<Question> showWelcomeQuestion() {
         Question welcomeQuestion = questionRepository.findWelcomeQuestion();
         return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
     }
@@ -64,5 +64,11 @@ public class ChatController {
         User user = userRepository.findById(userId);
         return new ResponseEntity<>(user.getInterests(), HttpStatus.OK);
     }
+
+//    @GetMapping("/api/questions")
+//    @ResponseBody
+//    public ResponseEntity<Question> showQuestion() {
+//
+//    }
 }
 

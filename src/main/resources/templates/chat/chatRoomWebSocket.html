@@ -195,7 +195,8 @@
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
 
         // 입장한 user의 관심사 정보를 서버로 전송
-
+        // 문제가 있음 -> getInterests() 메서드보다 send 메서드가 먼저 실행됨 -> userInterests 값이 null인 상태로 send됨
+        stompClient.send("/pub/interests", {}, JSON.stringify({interests: userInterests}))
     });
 
     const loadChatMessages = async () => {
