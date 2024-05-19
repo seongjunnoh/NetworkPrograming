@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInterestDto {
+    private int teamId;
     private String[] interests;
 }

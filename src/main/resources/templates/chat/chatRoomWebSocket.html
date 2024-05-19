@@ -194,7 +194,7 @@
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
 
         // 입장한 user의 관심사 정보를 서버로 전송
-        stompClient.send("/pub/interests", {}, JSON.stringify({interests: userInterests}));
+        stompClient.send("/pub/interests", {}, JSON.stringify({teamId: teamId, interests: userInterests}));
     }
 
     stompClient.connect({}, onConnected);

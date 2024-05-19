@@ -9,6 +9,7 @@ import org.example.IceBreaking.domain.ConnectDto;
 import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.domain.UserInterestDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
+import org.example.IceBreaking.repository.question.QuestionRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     private final SimpMessagingTemplate template;
     private final ChatRepository chatRepository;
+    private final QuestionRepository questionRepository;
+
     private final static String chatBot = "IceBreaker";
 
     @MessageMapping("/chat/enter")
@@ -78,10 +81,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     @MessageMapping("/interests")
     public void getTeamInterests(UserInterestDto userInterestDto) {
-        log.info("getTeamInterests(interests = {})", userInterestDto.toString());
+        log.info("getTeamInterests(userInterestDto = {})", userInterestDto.toString());
 
-        // userInterests 값을 받아서 서버에 저장 & 다른 팀원들의 관심사와 겹치는게 있는지 체크
-
-
+        // userInterests 값을 받아서 팀별로 구분해 서버에 저장
+        questionRepository.saveInterestsByTeam(userInterestDto.getTeamId(), userInterestDto.getInterests());
     }
 }
