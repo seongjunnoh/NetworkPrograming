@@ -1,6 +1,7 @@
 package org.example.IceBreaking.repository.question;
 
 import org.example.IceBreaking.domain.Question;
+import org.example.IceBreaking.status.InterestKeyword;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -10,7 +11,12 @@ import java.util.Map;
 public class MemoryQuestionRepository implements QuestionRepository {
 
     private static final String welcomeQuestion = "전화번호를 입력해주세요.";
+    private static final Map<String, String[]> questionMap = new HashMap<>();
     private final Map<Integer, String[]> interestsMap = new HashMap<>();
+
+    static {
+//        questionMap.put(InterestKeyword.SPORTS, )
+    }
 
     @Override
     public Question findWelcomeQuestion() {
