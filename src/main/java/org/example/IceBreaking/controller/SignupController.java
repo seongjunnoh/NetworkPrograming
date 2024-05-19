@@ -24,13 +24,11 @@ public class SignupController {
 
     @PostMapping("/signup")
     public String createUser(@ModelAttribute User user) {
-        user.setId();           // User 객체 고유의 Id값 set
         userRepository.save(user);
 
         // 검증용
         // 회원가입한 유저들의 정보를 콘솔에 print
         User savedUser = userRepository.findById(user.getUserId());
-        System.out.println("savedUser.get().getId() = " + savedUser.getId());
         System.out.println("savedUser.get().getUserId() = " + savedUser.getUserId());
         System.out.println("savedUser.get().getPassword() = " + savedUser.getPassword());
         System.out.println("savedUser.get().getName() = " + savedUser.getName());

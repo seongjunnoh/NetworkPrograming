@@ -131,7 +131,7 @@
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
     <input type="hidden" id="userName" th:value="${user.name}"/>
-    <input type="hidden" id="userId" th:value="${user.id}"/>        <!--user.userId로 변경해야할듯-->
+    <input type="hidden" id="userId" th:value="${user.userId}"/>
     <input type="hidden" id="teamCreatorId" th:value="${teamCreatorId}"/>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -148,7 +148,7 @@
     const teamCreatorId = document.querySelector('input#teamCreatorId').value;
 
     // 입장한 user의 관심사 get
-    const interests = await axios.get('url');
+    // const interests = await axios.get('url');
 
 
     // teamCreator에게만 '질문생성' 버튼 보이도록 설정

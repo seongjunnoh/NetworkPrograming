@@ -9,7 +9,7 @@ import java.util.*;
 public class MemoryTeamRepository implements TeamRepository {
 
     private final Map<Integer, Team> teamMap = new HashMap<>();
-    private final Map<Integer, Integer> teamCreatorMap = new HashMap<>();
+    private final Map<Integer, String> teamCreatorMap = new HashMap<>();
 
     @Override
     public void save(Team team) {
@@ -17,7 +17,7 @@ public class MemoryTeamRepository implements TeamRepository {
     }
 
     @Override
-    public void saveTeamCreator(int teamId, int userId) {
+    public void saveTeamCreator(int teamId, String userId) {
         teamCreatorMap.put(teamId, userId);
     }
 
@@ -32,7 +32,7 @@ public class MemoryTeamRepository implements TeamRepository {
     }
 
     @Override
-    public int findTeamCreatorId(int teamId) {
+    public String findTeamCreatorId(int teamId) {
         return teamCreatorMap.get(teamId);
     }
 }

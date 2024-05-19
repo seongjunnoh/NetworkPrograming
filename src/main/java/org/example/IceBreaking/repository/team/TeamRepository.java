@@ -9,11 +9,11 @@ public interface TeamRepository {
 
     void save(Team team);
 
-    void saveTeamCreator(int teamId, int userId);
+    void saveTeamCreator(int teamId, String userId);
 
     List<Team> findAll();
 
     Optional<Team> findById(int teamId);
 
-    int findTeamCreatorId(int teamId);
+    String findTeamCreatorId(int teamId);
 }
