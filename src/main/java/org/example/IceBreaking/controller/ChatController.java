@@ -51,7 +51,7 @@ public class ChatController {
         return new ResponseEntity<>(chatList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/question")
+    @GetMapping("/api/welcomeQuestion")
     @ResponseBody
     public ResponseEntity<Question> getQuestion() {
         Question welcomeQuestion = questionRepository.findWelcomeQuestion();

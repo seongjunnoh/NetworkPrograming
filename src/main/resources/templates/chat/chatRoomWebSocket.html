@@ -146,10 +146,17 @@
     const userName = document.querySelector('input#userName').value;
     const userId = document.querySelector('input#userId').value;
     const teamCreatorId = document.querySelector('input#teamCreatorId').value;
+    let userInterests = null;
+    let questionCount = 0;
 
     // 입장한 user의 관심사 get
-    // const interests = await axios.get('url');
-
+    const getInterests = async () => {
+        const url = `/api/interests/${userId}`;
+        const interests = await axios.get(url);
+        console.log(interests.data);
+        userInterests = interests.data;
+        console.log(userInterests);
+    }
 
     // teamCreator에게만 '질문생성' 버튼 보이도록 설정
     if (userId === teamCreatorId) {
@@ -160,6 +167,8 @@
     stompClient.connect({}, function () {
         console.log("STOMP connection");
 
+        getInterests();         // 팀플방에 입장한 user의 관심사 get
+
         stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
             console.log(chat.body);
 
@@ -167,6 +176,9 @@
         });
 
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
+
+        // 입장한 user의 관심사 정보를 서버로 전송
+
     });
 
     const loadChatMessages = async () => {
@@ -205,11 +217,26 @@
     }
 
     const askQuestion = async() => {
-        const url = '/api/question';
-        const response = await axios.get(url);
-        console.log(response.data);
+        questionCount++;
+        if (questionCount === 1) {
+            const url = '/api/welcomeQuestion';
+            const response = await axios.get(url);
+            console.log(response.data);
 
-        stompClient.send("/pub/chat/question", {}, JSON.stringify({teamId: teamId, message: response.data.question}))
+            stompClient.send("/pub/chat/question", {}, JSON.stringify({
+                teamId: teamId,
+                message: response.data.question
+            }));
+        } else {
+            const url = '/api/question';
+            const response = await axios.get(url);
+            console.log(response.data);
+
+            stompClient.send("/pub/chat/question", {}, JSON.stringify({
+                teamId: teamId,
+                message: response.data.question
+            }));
+        }
     }
 
     const questionBtn = document.querySelector('button#btnQuestion');
