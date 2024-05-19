@@ -37,7 +37,7 @@ public class ChatController {
         User loginedUser = (User) httpSession.getAttribute("loginedUser");
         model.addAttribute("user", loginedUser);
 
-        int teamCreatorId = teamRepository.findTeamCreatorId(teamId);
+        String teamCreatorId = teamRepository.findTeamCreatorId(teamId);
         System.out.println("teamCreatorId = " + teamCreatorId);
         model.addAttribute("teamCreatorId", teamCreatorId);
 
@@ -51,9 +51,9 @@ public class ChatController {
         return new ResponseEntity<>(chatList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/question")
+    @GetMapping("/api/welcomeQuestion")
     @ResponseBody
-    public ResponseEntity<Question> getQuestion() {
+    public ResponseEntity<Question> showWelcomeQuestion() {
         Question welcomeQuestion = questionRepository.findWelcomeQuestion();
         return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
     }
@@ -64,5 +64,11 @@ public class ChatController {
         User user = userRepository.findById(userId);
         return new ResponseEntity<>(user.getInterests(), HttpStatus.OK);
     }
+
+//    @GetMapping("/api/questions")
+//    @ResponseBody
+//    public ResponseEntity<Question> showQuestion() {
+//
+//    }
 }
 

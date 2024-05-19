@@ -37,7 +37,6 @@ public class EditController {
         httpSession.setAttribute("loginedUser", editUser);
 
         // 수정 정보 확인
-        System.out.println("editUser.get().getId() = " + editUser.getId());
         System.out.println("editUser.get().getUserId() = " + editUser.getUserId());
         System.out.println("editUser.get().getPassword() = " + editUser.getPassword());
         System.out.println("editUser.get().getName() = " + editUser.getName());

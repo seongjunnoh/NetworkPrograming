@@ -28,11 +28,7 @@ public class MemoryUserRepository implements UserRepository {
     @Override
     public User changeUserInfo(User user) {
         if (userMap.get(user.getUserId()) != null) {
-            User beforeChangeUser = userMap.get(user.getUserId());
-            user.setIdForEdit(beforeChangeUser.getId());        // id값 set
-
             userMap.put(user.getUserId(), user);
-
             return userMap.get(user.getUserId());
         }
 

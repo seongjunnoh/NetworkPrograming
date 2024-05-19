@@ -32,7 +32,7 @@ public class TeamController {
 
         // 팀플방 생성한 User의 id값 저장
         User teamCreator = (User) httpSession.getAttribute("loginedUser");
-        teamRepository.saveTeamCreator(team.getId(), teamCreator.getId());
+        teamRepository.saveTeamCreator(team.getId(), teamCreator.getUserId());
 
         return "redirect:/";            // 홈화면으로 redirect
     }

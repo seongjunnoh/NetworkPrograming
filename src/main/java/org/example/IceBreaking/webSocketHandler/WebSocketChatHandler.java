@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.IceBreaking.domain.Chat;
 import org.example.IceBreaking.domain.ConnectDto;
 import org.example.IceBreaking.domain.User;
+import org.example.IceBreaking.domain.UserInterestDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -73,5 +74,14 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         chatRepository.saveChat(connectDto.getTeamId(), exitChat);
 
         template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
+    }
+
+    @MessageMapping("/interests")
+    public void getTeamInterests(UserInterestDto userInterestDto) {
+        log.info("getTeamInterests(interests = {})", userInterestDto.toString());
+
+        // userInterests 값을 받아서 서버에 저장 & 다른 팀원들의 관심사와 겹치는게 있는지 체크
+
+
     }
 }
