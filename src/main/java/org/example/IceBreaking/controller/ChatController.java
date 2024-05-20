@@ -51,13 +51,6 @@ public class ChatController {
         return new ResponseEntity<>(chatList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/welcomeQuestion")
-    @ResponseBody
-    public ResponseEntity<Question> showWelcomeQuestion() {
-        Question welcomeQuestion = questionRepository.findWelcomeQuestion();
-        return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
-    }
-
     @GetMapping("/api/interests/{userId}")
     @ResponseBody
     public ResponseEntity<String[]> getInterests(@PathVariable("userId") String userId) {
@@ -65,9 +58,16 @@ public class ChatController {
         return new ResponseEntity<>(user.getInterests(), HttpStatus.OK);
     }
 
-//    @GetMapping("/api/questions")
+    @GetMapping("/api/welcomeQuestion")
+    @ResponseBody
+    public ResponseEntity<Question> showWelcomeQuestion() {
+        Question welcomeQuestion = questionRepository.findWelcomeQuestion();
+        return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
+    }
+
+//    @GetMapping("/api/questions/{teamId}")
 //    @ResponseBody
-//    public ResponseEntity<Question> showQuestion() {
+//    public ResponseEntity<Question> showQuestion(@PathVariable("teamId") int teamId) {
 //
 //    }
 }

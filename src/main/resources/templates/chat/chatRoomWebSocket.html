@@ -246,7 +246,7 @@
                 message: response.data.question
             }));
         } else {
-            const url = '/api/question';
+            const url = `/api/question/${teamId}`;
             const response = await axios.get(url);
             console.log(response.data);
 
