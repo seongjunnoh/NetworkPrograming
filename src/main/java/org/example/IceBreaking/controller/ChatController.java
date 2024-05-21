@@ -65,10 +65,11 @@ public class ChatController {
         return new ResponseEntity<>(welcomeQuestion, HttpStatus.OK);
     }
 
-//    @GetMapping("/api/questions/{teamId}")
-//    @ResponseBody
-//    public ResponseEntity<Question> showQuestion(@PathVariable("teamId") int teamId) {
-//
-//    }
+    @GetMapping("/api/question/{teamId}")
+    @ResponseBody
+    public ResponseEntity<Question> showQuestion(@PathVariable("teamId") int teamId) {
+        Question question = questionRepository.findQuestionByTeamInterests(teamId);
+        return new ResponseEntity<>(question, HttpStatus.OK);
+    }
 }
 

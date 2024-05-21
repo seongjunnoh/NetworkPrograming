@@ -1,7 +1,6 @@
 package org.example.IceBreaking.repository.question;
 
 import org.example.IceBreaking.domain.Question;
-import org.example.IceBreaking.dto.TeamInterestsDto;
 import org.example.IceBreaking.dto.UserInterestDto;
 import org.example.IceBreaking.enumData.InterestKeyword;
 import org.example.IceBreaking.enumData.QuestionsByInterestKey;
@@ -49,6 +48,10 @@ public class MemoryQuestionRepository implements QuestionRepository {
         }
 
         // userInterestsMapInTeam 에 userId 별로 관심사 키워드 정보 추가
+        /**
+         * user가 관심사 정보를 수정하고 다시 채팅방 입장시에는 이 정보가 바껴야함 -> 추가 리펙토링 필요
+         * dto에 user가 관심사를 수정했는지 아닌지를 check하는 flag 정보가 추가되어야함
+         */
         if (!userInterestsMapInTeam.containsKey(userId)) {
             userInterestsMapInTeam.put(userId, interests);
         }
@@ -57,7 +60,12 @@ public class MemoryQuestionRepository implements QuestionRepository {
 
         // 검증용
         for (String key : userInterestsMapInTeam.keySet()) {
-            System.out.println("Arrays.toString(userInterestsMapInTeam.get(key)) = " + Arrays.toString(userInterestsMapInTeam.get(key)));
+            System.out.println(key + " : " + Arrays.toString(userInterestsMapInTeam.get(key)));
         }
+    }
+
+    @Override
+    public Question findQuestionByTeamInterests(int teamId) {
+        return new Question("테스트용 예시질문");
     }
 }
