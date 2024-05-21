@@ -1,4 +1,4 @@
-package org.example.IceBreaking.status;
+package org.example.IceBreaking.enumData;
 
 import lombok.Getter;
 

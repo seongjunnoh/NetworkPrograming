@@ -1,26 +1,16 @@
 package org.example.IceBreaking.webSocketHandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.IceBreaking.domain.Chat;
-import org.example.IceBreaking.domain.ConnectDto;
-import org.example.IceBreaking.domain.User;
-import org.example.IceBreaking.domain.UserInterestDto;
+import org.example.IceBreaking.dto.ConnectDto;
+import org.example.IceBreaking.dto.UserInterestDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.question.QuestionRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Slf4j
 @Controller
@@ -84,6 +74,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         log.info("getTeamInterests(userInterestDto = {})", userInterestDto.toString());
 
         // userInterests 값을 받아서 팀별로 구분해 서버에 저장
-        questionRepository.saveInterestsByTeam(userInterestDto.getTeamId(), userInterestDto.getInterests());
+        questionRepository.saveInterestsByTeam(userInterestDto);
     }
 }

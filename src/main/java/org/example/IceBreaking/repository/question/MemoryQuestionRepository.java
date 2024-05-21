@@ -1,22 +1,20 @@
 package org.example.IceBreaking.repository.question;
 
 import org.example.IceBreaking.domain.Question;
-import org.example.IceBreaking.domain.TeamInterestsDto;
-import org.example.IceBreaking.status.InterestKeyword;
-import org.example.IceBreaking.status.QuestionsByInterestKey;
+import org.example.IceBreaking.dto.TeamInterestsDto;
+import org.example.IceBreaking.dto.UserInterestDto;
+import org.example.IceBreaking.enumData.InterestKeyword;
+import org.example.IceBreaking.enumData.QuestionsByInterestKey;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MemoryQuestionRepository implements QuestionRepository {
 
     private static final String welcomeQuestion = "전화번호를 입력해주세요.";
     private static final Map<InterestKeyword, QuestionsByInterestKey> questionMap = new HashMap<>();
-    private final Map<Integer, List<TeamInterestsDto>> teamInterestsMap = new HashMap<>();
+    private final Map<Integer, Map<String, String[]>> teamInterestsMap = new HashMap<>();
 
     static {
         questionMap.put(InterestKeyword.SPORTS, QuestionsByInterestKey.SPORTS);
@@ -37,24 +35,29 @@ public class MemoryQuestionRepository implements QuestionRepository {
     }
 
     @Override
-    public void saveInterestsByTeam(int teamId, String[] interests) {
-        // 채팅방에 입장한 user의 관심사 정보를 저장 & 겹치는 것이 있는지 체크
-        List<TeamInterestsDto> teamInterestsList = teamInterestsMap.getOrDefault(teamId, new ArrayList<>());
+    public void saveInterestsByTeam(UserInterestDto userInterestDto) {
+        // 채팅방에 입장한 user들의 관심사 정보를 저장 & 겹치는 것이 있는지 체크
+        // 같은 userId값을 가진 User가 여러번 입장해도 한번만 put -> 이 기능 추가해야함
 
-        for (String interest : interests) {
-            boolean exist = false;
-            for (TeamInterestsDto dto : teamInterestsList) {
-                if (dto.getInterestValue().equals(interest)) {
-                    dto.setCount(dto.getCount() + 1);
-                    exist = true;
-                    break;
-                }
-            }
-            if (!exist) {
-                teamInterestsList.add(new TeamInterestsDto(interest, 1));
-            }
+        String userId = userInterestDto.getUserId();
+        int teamId = userInterestDto.getTeamId();
+        String[] interests = userInterestDto.getInterests();
+
+        Map<String, String[]> userInterestsMapInTeam = teamInterestsMap.get(teamId);
+        if (userInterestsMapInTeam == null) {
+            userInterestsMapInTeam = new HashMap<>();
         }
 
-        teamInterestsMap.put(teamId, teamInterestsList);
+        // userInterestsMapInTeam 에 userId 별로 관심사 키워드 정보 추가
+        if (!userInterestsMapInTeam.containsKey(userId)) {
+            userInterestsMapInTeam.put(userId, interests);
+        }
+
+        teamInterestsMap.put(teamId, userInterestsMapInTeam);
+
+        // 검증용
+        for (String key : userInterestsMapInTeam.keySet()) {
+            System.out.println("Arrays.toString(userInterestsMapInTeam.get(key)) = " + Arrays.toString(userInterestsMapInTeam.get(key)));
+        }
     }
 }
