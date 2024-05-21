@@ -1,4 +1,4 @@
-package org.example.IceBreaking.domain;
+package org.example.IceBreaking.dto;
 
 import lombok.*;
 

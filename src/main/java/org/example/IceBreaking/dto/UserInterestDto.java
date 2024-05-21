@@ -1,4 +1,4 @@
-package org.example.IceBreaking.domain;
+package org.example.IceBreaking.dto;
 
 import lombok.*;
 
@@ -8,5 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInterestDto {
+
+    private String userId;
+    private int teamId;
     private String[] interests;
 }

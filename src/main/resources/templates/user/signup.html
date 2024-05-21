@@ -121,15 +121,15 @@
     <p class="interest-heading">관심있는 대화주제를 최대 3개 선택하세요:</p>
     <div class="interests">
         <label><input type="checkbox" name="interests" value="sports"> 스포츠</label>
-        <label><input type="checkbox" name="interests" value="shopping"> 영화/드라마</label>
-        <label><input type="checkbox" name="interests" value="movies"> 노래</label>
+        <label><input type="checkbox" name="interests" value="movies/drama"> 영화/드라마</label>
+        <label><input type="checkbox" name="interests" value="music"> 노래</label>
         <label><input type="checkbox" name="interests" value="games"> 게임</label>
-        <label><input type="checkbox" name="interests" value="reading"> 여행</label>
-        <label><input type="checkbox" name="interests" value="youtube"> 음식</label>
-        <label><input type="checkbox" name="interests" value="youtube"> 연애</label>
-        <label><input type="checkbox" name="interests" value="youtube"> 반려동물</label>
-        <label><input type="checkbox" name="interests" value="youtube"> 밸런스게임</label>
-        <label><input type="checkbox" name="interests" value="youtube"> 망상(IF)</label>
+        <label><input type="checkbox" name="interests" value="trip"> 여행</label>
+        <label><input type="checkbox" name="interests" value="eating"> 음식</label>
+        <label><input type="checkbox" name="interests" value="love"> 연애</label>
+        <label><input type="checkbox" name="interests" value="pet"> 반려동물</label>
+        <label><input type="checkbox" name="interests" value="balanceGame"> 밸런스게임</label>
+        <label><input type="checkbox" name="interests" value="if"> 망상(IF)</label>
     </div>
 
     <input type="submit" value="완료">
@@ -145,7 +145,7 @@
                     const checkedCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
                     if (checkedCount > 3) {
                         checkbox.checked = false;
-                        alert("최대 3개의 키워드를 선택할 수 있습니다.");
+                        alert("최대 3개의 대화주제를 선택할 수 있습니다.");
                     }
                 });
             });
@@ -154,7 +154,7 @@
         function validateForm() {
             const checkCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
             if (checkCount === 0) {
-                alert("1개 이상의 키워드를 선택하세요.");
+                alert("1개 이상의 대화주제를 선택하세요.");
                 return false;
             }
 

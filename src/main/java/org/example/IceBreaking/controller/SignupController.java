@@ -2,7 +2,7 @@ package org.example.IceBreaking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.User;
-import org.example.IceBreaking.domain.ValidateUserIdDto;
+import org.example.IceBreaking.dto.ValidateUserIdDto;
 import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

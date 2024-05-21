@@ -111,20 +111,28 @@
         <input type="text" id="studentId" name="studentId" th:value="${user.studentId}" required>
     </div>
 
-    <p class="interest-heading">관심있는 키워드를 최대 3개 선택하세요:</p>
+    <p class="interest-heading">관심있는 대화주제를 최대 3개 선택하세요:</p>
     <div class="interests">
         <label><input type="checkbox" name="interests" value="sports"
                       th:checked="${#arrays.contains(user.interests, 'sports')}"> 스포츠</label>
-        <label><input type="checkbox" name="interests" value="shopping"
-                      th:checked="${#arrays.contains(user.interests, 'shopping')}"> 쇼핑</label>
-        <label><input type="checkbox" name="interests" value="movies"
-                      th:checked="${#arrays.contains(user.interests, 'movies')}"> 영화</label>
+        <label><input type="checkbox" name="interests" value="movies/drama"
+                      th:checked="${#arrays.contains(user.interests, 'movies/drama')}"> 영화/드라마</label>
+        <label><input type="checkbox" name="interests" value="music"
+                      th:checked="${#arrays.contains(user.interests, 'music')}"> 노래</label>
         <label><input type="checkbox" name="interests" value="games"
                       th:checked="${#arrays.contains(user.interests, 'games')}"> 게임</label>
-        <label><input type="checkbox" name="interests" value="reading"
-                      th:checked="${#arrays.contains(user.interests, 'reading')}"> 독서</label>
-        <label><input type="checkbox" name="interests" value="youtube"
-                      th:checked="${#arrays.contains(user.interests, 'youtube')}"> 유튜브 시청</label>
+        <label><input type="checkbox" name="interests" value="trip"
+                      th:checked="${#arrays.contains(user.interests, 'trip')}"> 여행</label>
+        <label><input type="checkbox" name="interests" value="eating"
+                      th:checked="${#arrays.contains(user.interests, 'eating')}"> 음식</label>
+        <label><input type="checkbox" name="interests" value="love"
+                      th:checked="${#arrays.contains(user.interests, 'love')}"> 연애</label>
+        <label><input type="checkbox" name="interests" value="pet"
+                      th:checked="${#arrays.contains(user.interests, 'pet')}"> 반려동물</label>
+        <label><input type="checkbox" name="interests" value="balanceGame"
+                      th:checked="${#arrays.contains(user.interests, 'balanceGame')}"> 밸런스게임</label>
+        <label><input type="checkbox" name="interests" value="if"
+                      th:checked="${#arrays.contains(user.interests, 'if')}"> 망상(IF)</label>
     </div>
     <button type="submit">수정하기</button>
 
@@ -137,7 +145,7 @@
                     const checkedCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
                     if (checkedCount > 3) {
                         checkbox.checked = false;
-                        alert("최대 3개의 키워드를 선택할 수 있습니다.");
+                        alert("최대 3개의 대화주제를 선택할 수 있습니다.");
                     }
                 });
             });
@@ -146,7 +154,7 @@
         function validateForm() {
             const checkCount = document.querySelectorAll('.interests input[type="checkbox"]:checked').length;
             if (checkCount === 0) {
-                alert("1개 이상의 키워드를 선택하세요.");
+                alert("1개 이상의 대화주제를 선택하세요.");
                 return false;
             }
         }

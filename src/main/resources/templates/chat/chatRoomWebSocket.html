@@ -194,7 +194,7 @@
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
 
         // 입장한 user의 관심사 정보를 서버로 전송
-        stompClient.send("/pub/interests", {}, JSON.stringify({interests: userInterests}));
+        stompClient.send("/pub/interests", {}, JSON.stringify({userId: userId, teamId: teamId, interests: userInterests}));
     }
 
     stompClient.connect({}, onConnected);
@@ -209,7 +209,7 @@
 
     window.onload = loadChatMessages;
 
-    const sendMessage = (e) => {
+    const sendMessage = () => {
         const msg = document.querySelector('input#msg');
         console.log(userName + ": " + msg.value);
 
@@ -234,7 +234,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }
 
-    const askQuestion = async() => {
+    const askQuestion = async () => {
         questionCount++;
         if (questionCount === 1) {
             const url = '/api/welcomeQuestion';
@@ -246,7 +246,7 @@
                 message: response.data.question
             }));
         } else {
-            const url = '/api/question';
+            const url = `/api/question/${teamId}`;
             const response = await axios.get(url);
             console.log(response.data);
 
