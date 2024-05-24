@@ -220,6 +220,14 @@
     const sendBtn = document.querySelector('button#btnSend');
     sendBtn.addEventListener('click', sendMessage);
 
+    // 채팅 입력 후 엔터키 입력 시 sendBtn 누른것과 동일한 작업 수행
+    const msgInput = document.querySelector('input#msg');
+    msgInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
     const displayMessage = (message) => {
         const chatMessages = document.getElementById('chatMessages');
         const newMessage = document.createElement('li');
