@@ -142,7 +142,7 @@
         <button type="button" class="ask-question" id="btnQuestion" style="display: none">질문생성</button>
     </div>
     <!-- Exit 버튼 추가 -->
-    <form action="/team/showAll" method="get" onclick="exitChatRoom()">
+    <form action="/team/showAll" method="get">
         <button type="submit" class="exit-button" id="btnExit">나가기</button>
     </form>
 
@@ -220,6 +220,14 @@
     const sendBtn = document.querySelector('button#btnSend');
     sendBtn.addEventListener('click', sendMessage);
 
+    // 채팅 입력 후 엔터키 입력 시 sendBtn 누른것과 동일한 작업 수행
+    const msgInput = document.querySelector('input#msg');
+    msgInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
     const displayMessage = (message) => {
         const chatMessages = document.getElementById('chatMessages');
         const newMessage = document.createElement('li');
@@ -259,11 +267,6 @@
 
     const questionBtn = document.querySelector('button#btnQuestion');
     questionBtn.addEventListener('click', askQuestion);
-
-    // 나가기 버튼 클릭시 채팅방 화면에 퇴장 메시지 출력
-    const exitChatRoom = () => {
-        stompClient.send("/pub/chat/exit", {}, JSON.stringify({teamId: teamId, userName: userName}))
-    };
 
 </script>
 </body>
