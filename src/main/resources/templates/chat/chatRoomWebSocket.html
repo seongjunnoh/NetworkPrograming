@@ -191,7 +191,7 @@
             displayMessage(JSON.parse(chat.body));
         });
 
-        stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userName: userName}));
+        stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userId: userId, userName: userName}));
 
         // 입장한 user의 관심사 정보를 서버로 전송
         stompClient.send("/pub/interests", {}, JSON.stringify({userId: userId, teamId: teamId, interests: userInterests}));
@@ -213,7 +213,7 @@
         const msg = document.querySelector('input#msg');
         console.log(userName + ": " + msg.value);
 
-        stompClient.send("/pub/chat/message", {}, JSON.stringify({teamId: teamId, userName: userName, message: msg.value}));
+        stompClient.send("/pub/chat/message", {}, JSON.stringify({teamId: teamId, userId: userId, userName: userName, message: msg.value}));
         msg.value = "";
     }
 
@@ -229,10 +229,13 @@
     });
 
     const displayMessage = (message) => {
+        console.log(message);
+
         const chatMessages = document.getElementById('chatMessages');
         const newMessage = document.createElement('li');
         newMessage.classList.add('chat-message');
-        if (message.userName === userName) {
+
+        if (message.userId === userId) {
             newMessage.classList.add('user');
         } else {
             newMessage.classList.add('others');

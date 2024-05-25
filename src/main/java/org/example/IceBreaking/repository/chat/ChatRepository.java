@@ -1,11 +1,11 @@
 package org.example.IceBreaking.repository.chat;
 
-import org.example.IceBreaking.domain.Chat;
+import org.example.IceBreaking.dto.ChatDto;
 
 import java.util.List;
 
 public interface ChatRepository {
 
-    void saveChat(int teamId, Chat chat);
-    List<Chat> findChatList(int teamId);
+    void saveChat(int teamId, ChatDto chat);
+    List<ChatDto> findChatList(int teamId);
 }
