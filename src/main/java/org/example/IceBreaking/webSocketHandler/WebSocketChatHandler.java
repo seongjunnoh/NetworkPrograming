@@ -1,10 +1,8 @@
 package org.example.IceBreaking.webSocketHandler;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.IceBreaking.domain.Chat;
-import org.example.IceBreaking.dto.ConnectDto;
+import org.example.IceBreaking.dto.ChatDto;
 import org.example.IceBreaking.dto.UserInterestDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.question.QuestionRepository;
@@ -15,8 +13,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -30,40 +26,39 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private final static String chatBot = "IceBreaker";
 
     @MessageMapping("/chat/enter")
-    public void enter(ConnectDto connectDto, SimpMessageHeaderAccessor headerAccessor) {
+    public void enter(ChatDto connectDto, SimpMessageHeaderAccessor headerAccessor) {
         connectDto.setMessage(connectDto.getUserName() + "님이 입장하였습니다.");
 
         // chat 저장
-        Chat welcomeChat = new Chat(connectDto.getUserName(), connectDto.getMessage());
-        chatRepository.saveChat(connectDto.getTeamId(), welcomeChat);
+        chatRepository.saveChat(connectDto.getTeamId(), connectDto);
 
-        // SimpMessageHeaderAccessor에 teamId, userName 추가
+        // SimpMessageHeaderAccessor에 teamId, userName, userId 추가
         headerAccessor.getSessionAttributes().put("teamId", connectDto.getTeamId());
         headerAccessor.getSessionAttributes().put("userName", connectDto.getUserName());
+        headerAccessor.getSessionAttributes().put("userId", connectDto.getUserId());
 
         template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
     }
 
     @MessageMapping("/chat/message")
-    public void message(ConnectDto message) {
+    public void message(ChatDto message) {
         log.info("message(message = {})", message.toString());
 
         // chat 저장
-        Chat chat = new Chat(message.getUserName(), message.getMessage());
-        chatRepository.saveChat(message.getTeamId(), chat);
+        chatRepository.saveChat(message.getTeamId(), message);
 
         template.convertAndSend("/sub/chat/room/" + message.getTeamId(), message);
     }
 
     @MessageMapping("/chat/question")
-    public void question(ConnectDto question) {
+    public void question(ChatDto question) {
         log.info("question(question = {})", question.toString());
 
+        question.setUserId(chatBot);
         question.setUserName(chatBot);
 
         // chat 저장
-        Chat chat = new Chat(question.getUserName(), question.getMessage());
-        chatRepository.saveChat(question.getTeamId(), chat);
+        chatRepository.saveChat(question.getTeamId(), question);
 
         template.convertAndSend("/sub/chat/room/" + question.getTeamId(), question);
     }
@@ -81,16 +76,18 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(event.getMessage());
         int teamId = (int) headerAccessor.getSessionAttributes().get("teamId");
         String userName = (String) headerAccessor.getSessionAttributes().get("userName");
+        String userId = (String) headerAccessor.getSessionAttributes().get("userId");
 
         // chat 저장
-        Chat exitChat = new Chat();
+        ChatDto exitChat = new ChatDto();
+        exitChat.setTeamId(teamId);
+        exitChat.setUserId(userId);
         exitChat.setUserName(userName);
         exitChat.setMessage(userName + "님이 나갔습니다.");
         chatRepository.saveChat(teamId, exitChat);
 
         // message send
-        ConnectDto connectDto = new ConnectDto(teamId, userName, exitChat.getMessage());
-        template.convertAndSend("/sub/chat/room/" + connectDto.getTeamId(), connectDto);
+        template.convertAndSend("/sub/chat/room/" + exitChat.getTeamId(), exitChat);
     }
 
 }

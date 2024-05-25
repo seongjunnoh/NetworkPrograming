@@ -7,8 +7,9 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConnectDto {
+public class ChatDto {
     private int teamId;
+    private String userId;
     private String userName;
     private String message;
 }
