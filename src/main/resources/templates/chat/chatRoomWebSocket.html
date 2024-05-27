@@ -139,6 +139,7 @@
     <div id="message">
         <input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
         <button type="button" class="message-send" id="btnSend">전송</button>
+        <button type="button" class="ask-question" id="btnWelcomeQuestion" style="display: none">팀원 전화번호 요청</button>
         <button type="button" class="ask-question" id="btnQuestion" style="display: none">질문생성</button>
     </div>
     <!-- Exit 버튼 추가 -->
@@ -177,6 +178,7 @@
 
     // teamCreator에게만 '질문생성' 버튼 보이도록 설정
     if (userId === teamCreatorId) {
+        document.getElementById('btnWelcomeQuestion').style.display = 'inline-block';
         document.getElementById('btnQuestion').style.display = 'inline-block';
     }
 
@@ -240,36 +242,46 @@
         } else {
             newMessage.classList.add('others');
         }
-        newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${new Date(message.timestamp).toLocaleTimeString()}</span>`;
+
+        // LocalDateTime 문자열에서 년, 월, 일, 시, 분, 초 단위까지 파싱
+        const [datePart, timePart] = message.time.split('T');
+        const [year, month, day] = datePart.split('-');
+        const [hour, minute, second] = timePart.split(':');
+        const secondCleaned = second.split('.')[0]; // 초 단위까지만 추출
+        const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${secondCleaned}`;
+
+        newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${formattedTime}</span>`;
         chatMessages.appendChild(newMessage);
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }
 
     const askQuestion = async () => {
-        questionCount++;
-        if (questionCount === 1) {
-            const url = '/api/welcomeQuestion';
-            const response = await axios.get(url);
-            console.log(response.data);
+        const url = `/api/question/${teamId}`;
+        const response = await axios.get(url);
+        console.log(response.data);
 
-            stompClient.send("/pub/chat/question", {}, JSON.stringify({
-                teamId: teamId,
-                message: response.data.question
-            }));
-        } else {
-            const url = `/api/question/${teamId}`;
-            const response = await axios.get(url);
-            console.log(response.data);
-
-            stompClient.send("/pub/chat/question", {}, JSON.stringify({
-                teamId: teamId,
-                message: response.data.question
-            }));
-        }
+        stompClient.send("/pub/chat/question", {}, JSON.stringify({
+            teamId: teamId,
+            message: response.data.question
+        }));
     }
 
     const questionBtn = document.querySelector('button#btnQuestion');
     questionBtn.addEventListener('click', askQuestion);
+
+    const askWelcomeQuestion = async () => {
+        const url = '/api/welcomeQuestion';
+        const response = await axios.get(url);
+        console.log(response.data);
+
+        stompClient.send("/pub/chat/question", {}, JSON.stringify({
+            teamId: teamId,
+            message: response.data.question
+        }));
+    };
+
+    const welcomeQuestionBtn = document.querySelector('button#btnWelcomeQuestion');
+    welcomeQuestionBtn.addEventListener('click', askWelcomeQuestion);
 
 </script>
 </body>

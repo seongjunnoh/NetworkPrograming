@@ -2,7 +2,7 @@ package org.example.IceBreaking.webSocketHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.IceBreaking.dto.ChatDto;
+import org.example.IceBreaking.dto.WebSocketMessageDto;
 import org.example.IceBreaking.dto.UserInterestDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.question.QuestionRepository;
@@ -13,6 +13,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Controller
@@ -26,8 +28,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private final static String chatBot = "IceBreaker";
 
     @MessageMapping("/chat/enter")
-    public void enter(ChatDto connectDto, SimpMessageHeaderAccessor headerAccessor) {
+    public void enter(WebSocketMessageDto connectDto, SimpMessageHeaderAccessor headerAccessor) {
         connectDto.setMessage(connectDto.getUserName() + "님이 입장하였습니다.");
+        connectDto.setTime(LocalDateTime.now());
 
         // chat 저장
         chatRepository.saveChat(connectDto.getTeamId(), connectDto);
@@ -41,8 +44,10 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     }
 
     @MessageMapping("/chat/message")
-    public void message(ChatDto message) {
+    public void message(WebSocketMessageDto message) {
         log.info("message(message = {})", message.toString());
+
+        message.setTime(LocalDateTime.now());
 
         // chat 저장
         chatRepository.saveChat(message.getTeamId(), message);
@@ -51,11 +56,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     }
 
     @MessageMapping("/chat/question")
-    public void question(ChatDto question) {
+    public void question(WebSocketMessageDto question) {
         log.info("question(question = {})", question.toString());
 
         question.setUserId(chatBot);
         question.setUserName(chatBot);
+        question.setTime(LocalDateTime.now());
 
         // chat 저장
         chatRepository.saveChat(question.getTeamId(), question);
@@ -79,11 +85,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         String userId = (String) headerAccessor.getSessionAttributes().get("userId");
 
         // chat 저장
-        ChatDto exitChat = new ChatDto();
+        WebSocketMessageDto exitChat = new WebSocketMessageDto();
         exitChat.setTeamId(teamId);
         exitChat.setUserId(userId);
         exitChat.setUserName(userName);
         exitChat.setMessage(userName + "님이 나갔습니다.");
+        exitChat.setTime(LocalDateTime.now());
         chatRepository.saveChat(teamId, exitChat);
 
         // message send
