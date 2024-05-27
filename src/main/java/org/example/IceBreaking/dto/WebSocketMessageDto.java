@@ -15,4 +15,5 @@ public class WebSocketMessageDto {
     private String userName;
     private String message;
     private LocalDateTime time;
+    private String messageType;         // message vs question
 }
