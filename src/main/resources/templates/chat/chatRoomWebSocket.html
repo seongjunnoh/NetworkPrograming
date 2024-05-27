@@ -242,7 +242,15 @@
         } else {
             newMessage.classList.add('others');
         }
-        newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${new Date(message.timestamp).toLocaleTimeString()}</span>`;
+
+        // LocalDateTime 문자열에서 년, 월, 일, 시, 분, 초 단위까지 파싱
+        const [datePart, timePart] = message.time.split('T');
+        const [year, month, day] = datePart.split('-');
+        const [hour, minute, second] = timePart.split(':');
+        const secondCleaned = second.split('.')[0]; // 초 단위까지만 추출
+        const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${secondCleaned}`;
+
+        newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${formattedTime}</span>`;
         chatMessages.appendChild(newMessage);
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Question;
 import org.example.IceBreaking.domain.Team;
 import org.example.IceBreaking.domain.User;
-import org.example.IceBreaking.dto.ChatDto;
+import org.example.IceBreaking.dto.WebSocketMessageDto;
 import org.example.IceBreaking.repository.chat.ChatRepository;
 import org.example.IceBreaking.repository.question.QuestionRepository;
 import org.example.IceBreaking.repository.team.TeamRepository;
@@ -46,8 +46,8 @@ public class ChatController {
 
     @GetMapping("/api/chatList/{teamId}")
     @ResponseBody
-    public ResponseEntity<List<ChatDto>> getChatList(@PathVariable("teamId") int teamId) {
-        List<ChatDto> chatList = chatRepository.findChatList(teamId);
+    public ResponseEntity<List<WebSocketMessageDto>> getChatList(@PathVariable("teamId") int teamId) {
+        List<WebSocketMessageDto> chatList = chatRepository.findChatList(teamId);
         return new ResponseEntity<>(chatList, HttpStatus.OK);
     }
 
