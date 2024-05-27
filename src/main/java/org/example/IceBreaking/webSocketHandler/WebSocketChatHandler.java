@@ -26,11 +26,14 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private final QuestionRepository questionRepository;
 
     private final static String chatBot = "IceBreaker";
+    private final static String messageType = "message";
+    private final static String questionType = "question";
 
     @MessageMapping("/chat/enter")
     public void enter(WebSocketMessageDto connectDto, SimpMessageHeaderAccessor headerAccessor) {
         connectDto.setMessage(connectDto.getUserName() + "님이 입장하였습니다.");
         connectDto.setTime(LocalDateTime.now());
+        connectDto.setMessageType(messageType);
 
         // chat 저장
         chatRepository.saveChat(connectDto.getTeamId(), connectDto);
@@ -48,6 +51,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         log.info("message(message = {})", message.toString());
 
         message.setTime(LocalDateTime.now());
+        message.setMessageType(messageType);
 
         // chat 저장
         chatRepository.saveChat(message.getTeamId(), message);
@@ -62,6 +66,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         question.setUserId(chatBot);
         question.setUserName(chatBot);
         question.setTime(LocalDateTime.now());
+        question.setMessageType(questionType);
 
         // chat 저장
         chatRepository.saveChat(question.getTeamId(), question);
@@ -91,6 +96,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         exitChat.setUserName(userName);
         exitChat.setMessage(userName + "님이 나갔습니다.");
         exitChat.setTime(LocalDateTime.now());
+        exitChat.setMessageType(messageType);
         chatRepository.saveChat(teamId, exitChat);
 
         // message send
