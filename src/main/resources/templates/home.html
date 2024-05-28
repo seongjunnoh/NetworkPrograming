@@ -102,6 +102,41 @@
             width: 360px;
             margin: 20px 0;
         }
+
+        .entered-teams {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .entered-teams-title {
+            text-align: center;
+            color: #00796b;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .entered-teams a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-family: Gmarket Sans;
+            font-weight: 400;
+            letter-spacing: 0.02px;
+            padding: 16px 20px;
+            background-color: #00796b;
+            border-radius: 15px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .entered-teams a:hover {
+            background-color: #004d40;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +157,11 @@
 
 <div class="main-content">
     <img src="/main image.png" alt="Main image" class="main-image">
+</div>
+
+<div class="entered-teams" th:if="${enteredTeamList}">
+    <p class="entered-teams-title" th:text="${session.loginedUser.name} + '님이 입장한 팀플방 목록'"></p>
+    <a th:each="team : ${enteredTeamList}" th:href="@{/chat/{teamId}(teamId=${team.id})}" th:text="${team.teamName}"></a>
 </div>
 
 <div class="buttons-bottom">

@@ -1,5 +1,6 @@
 package org.example.IceBreaking.repository.user;
 
+import org.example.IceBreaking.domain.Team;
 import org.example.IceBreaking.domain.User;
 
 import java.util.List;
@@ -14,5 +15,9 @@ public interface UserRepository {
     List<User> findAll();
 
     User changeUserInfo(User user);
+
+    void saveEnteredChatRoom(String userId, Team team);
+
+    List<Team> findEnteredChatRoom(String userId);
 
 }
