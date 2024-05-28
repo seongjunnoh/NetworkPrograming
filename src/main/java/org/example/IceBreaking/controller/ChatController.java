@@ -41,6 +41,9 @@ public class ChatController {
         System.out.println("teamCreatorId = " + teamCreatorId);
         model.addAttribute("teamCreatorId", teamCreatorId);
 
+        // user가 입장한 chatRoom 정보 저장
+        userRepository.saveEnteredChatRoom(loginedUser.getUserId(), team.get());
+
         return "/chat/chatRoomWebSocket";
     }
 
