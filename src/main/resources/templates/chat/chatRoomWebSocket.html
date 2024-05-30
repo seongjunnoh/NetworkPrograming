@@ -20,12 +20,35 @@
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
         }
 
         h1 {
             text-align: center;
-            color: #3D96FF;
+            color: #000000;
             margin-bottom: 20px;
+        }
+
+        .exit-button {
+            padding: 5px 10px;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 12px;
+            font-family: NanumSquareNeo, sans-serif;
+        }
+
+        .exit-button:hover {
+            background-color: #333333;
         }
 
         .chat-announcements {
@@ -33,15 +56,18 @@
             padding: 0;
             margin: 0 0 10px 0;
             border-bottom: 2px solid #f2f2f2;
-            max-height: 100px;
-            overflow-y: auto;
+            height: 100px;
+            width: 100%;
         }
 
         .announcement {
-            background-color: #FFF3CD;
+            background-color: #EBE9E7;
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 10px;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .announcement-text {
@@ -61,10 +87,9 @@
             list-style-type: none;
             padding: 0;
             margin: 0;
-            max-height: 400px;
             overflow-y: auto;
             border-bottom: 2px solid #f2f2f2;
-            margin-bottom: 10px;
+            flex-grow: 1; /* Allow to take up remaining space */
         }
 
         .chat-message {
@@ -74,18 +99,25 @@
             max-width: 75%;
             word-wrap: break-word;
             position: relative;
+            margin-left: auto;
         }
 
         .chat-message.others {
             background-color: #E6F7FF;
-            margin-right: auto;
+            color: black;
+            text-align: right;
         }
 
         .chat-message.user {
             background-color: #3D96FF;
             color: white;
-            margin-left: auto;
-            text-align: right;
+        }
+
+        .chat-message.announcement {
+            background-color: #EBE9E7;
+            margin-left: 0;
+            text-align: left;
+            color: black;
         }
 
         .chat-message .message-info {
@@ -96,20 +128,32 @@
             margin-top: 5px;
         }
 
+        .message-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .message-input {
-            width: calc(100% - 110px);
+            flex-grow: 1;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 20px;
             outline: none;
             resize: none;
             box-sizing: border-box;
-            float: left;
+            font-family: NanumSquareNeo, sans-serif;
         }
 
         .message-send {
             width: 80px;
-            margin-left: 10px;
             padding: 10px;
             background-color: #64D8FF;
             color: white;
@@ -117,35 +161,14 @@
             border-radius: 20px;
             cursor: pointer;
             transition: background-color 0.3s;
-            float: left;
+            font-family: NanumSquareNeo, sans-serif;
         }
 
         .message-send:hover {
             background-color: #3D96FF;
         }
 
-        .exit-button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #ff4444;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            clear: both;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .exit-button:hover {
-            background-color: #cc0000;
-        }
-
         .ask-question {
-            width: 80px;
-            margin-left: 10px;
             padding: 10px;
             background-color: #87CEEB;
             color: white;
@@ -153,29 +176,43 @@
             border-radius: 20px;
             cursor: pointer;
             transition: background-color 0.3s;
-            float: left;
+            white-space: nowrap;
+            font-family: NanumSquareNeo, sans-serif;
+        }
+
+        .ask-question + .ask-question {
+            margin-left: 10px;
         }
 
         .ask-question:hover {
             background-color: #00BFFF;
         }
+
+        .buttons-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="chat-container">
-    <h1 th:text="${team.teamName}">Chat Room</h1>
-    <div id="chatAnnouncements" class="chat-announcements"></div>
-    <ul class="chat-messages" id="chatMessages"></ul>
-    <div id="message">
-        <input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
-        <button type="button" class="message-send" id="btnSend">전송</button>
-        <button type="button" class="ask-question" id="btnWelcomeQuestion" style="display: none">팀원 전화번호 요청</button>
-        <button type="button" class="ask-question" id="btnQuestion" style="display: none">질문생성</button>
-    </div>
-    <!-- Exit 버튼 추가 -->
     <form action="/team/showAll" method="get">
         <button type="submit" class="exit-button" id="btnExit">나가기</button>
     </form>
+    <h1 th:text="${team.teamName}">Chat Room</h1>
+    <div id="chatAnnouncements" class="chat-announcements"></div>
+    <ul class="chat-messages" id="chatMessages"></ul>
+    <div class="message-input-container" id="message">
+        <div class="input-row">
+            <input type="text" id="msg" class="message-input" placeholder="메시지를 입력하세요...">
+            <button type="button" class="message-send" id="btnSend">전송</button>
+        </div>
+        <div class="buttons-container">
+            <button type="button" class="ask-question" id="btnWelcomeQuestion" style="display: none">팀원 전화번호 요청</button>
+            <button type="button" class="ask-question" id="btnQuestion" style="display: none">질문생성</button>
+        </div>
+    </div>
 
     <input type="hidden" id="teamId" th:value="${team.id}"/>
     <input type="hidden" id="userName" th:value="${user.name}"/>
@@ -196,26 +233,23 @@
     const teamCreatorId = document.querySelector('input#teamCreatorId').value;
     let userInterests = null;
 
-    // 입장한 user의 관심사 get
     const getInterests = async () => {
         const url = `/api/interests/${userId}`;
         const interests = await axios.get(url);
         console.log(interests.data);
-        userInterests = interests.data;         // user의 관심사를 userInterests 변수에 할당
+        userInterests = interests.data;
         console.log(userInterests);
     }
 
-    // teamCreator에게만 '질문생성' 버튼 보이도록 설정
     if (userId === teamCreatorId) {
         document.getElementById('btnWelcomeQuestion').style.display = 'inline-block';
         document.getElementById('btnQuestion').style.display = 'inline-block';
     }
 
-    // connection이 맺어지면 실행될 메서드
     const onConnected = async () => {
         console.log("STOMP connection");
 
-        await getInterests();  // 팀플방에 입장한 user의 관심사 get
+        await getInterests();
 
         stompClient.subscribe("/sub/chat/room/" + teamId, function (chat) {
             console.log(chat.body);
@@ -224,7 +258,6 @@
 
         stompClient.send("/pub/chat/enter", {}, JSON.stringify({teamId: teamId, userId: userId, userName: userName}));
 
-        // 입장한 user의 관심사 정보를 서버로 전송
         stompClient.send("/pub/interests", {}, JSON.stringify({userId: userId, teamId: teamId, interests: userInterests}));
     }
 
@@ -251,7 +284,6 @@
     const sendBtn = document.querySelector('button#btnSend');
     sendBtn.addEventListener('click', sendMessage);
 
-    // 채팅 입력 후 엔터키 입력 시 sendBtn 누른것과 동일한 작업 수행
     const msgInput = document.querySelector('input#msg');
     msgInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -267,30 +299,26 @@
         const newMessage = document.createElement('li');
         newMessage.classList.add('chat-message');
 
-        if (message.userId === userId) {
-            newMessage.classList.add('user');
-        } else {
-            newMessage.classList.add('others');
-        }
-
-        // LocalDateTime 문자열에서 년, 월, 일, 시, 분, 초 단위까지 파싱
         const [datePart, timePart] = message.time.split('T');
         const [year, month, day] = datePart.split('-');
         const [hour, minute, second] = timePart.split(':');
-        const secondCleaned = second.split('.')[0]; // 초 단위까지만 추출
+        const secondCleaned = second.split('.')[0];
         const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${secondCleaned}`;
 
         if (message.messageType === 'question') {
-            chatAnnouncements.innerHTML = ''; // 기존 공지사항 제거
+            chatAnnouncements.innerHTML = '';
             const announcement = document.createElement('div');
             announcement.classList.add('announcement');
             announcement.innerHTML = `<p class="announcement-text"><b>Question:</b> ${message.message}</p><span class="announcement-info">${formattedTime}</span>`;
             chatAnnouncements.appendChild(announcement);
+            newMessage.classList.add('announcement');
+        } else {
+            newMessage.classList.add(message.userId === userId ? 'user' : 'others');
         }
 
         newMessage.innerHTML = `<p class="message-text"><b>${message.userName}:</b> ${message.message}</p><span class="message-info">${formattedTime}</span>`;
         chatMessages.appendChild(newMessage);
-        chatMessages.scrollTop = chatMessages.scrollHeight;    // Scroll to the bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     const askQuestion = async () => {
