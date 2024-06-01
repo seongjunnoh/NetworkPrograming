@@ -55,15 +55,8 @@ public class MemoryQuestionRepository implements QuestionRepository {
         }
 
         // userInterestsMapInTeam 에 userId 별로 관심사 키워드 정보 추가
-        /**
-         * user가 관심사 정보를 수정하고 다시 채팅방 입장시에는 이 정보가 바껴야함
-         * -> user의 isEditInfoFlag값이 true인 경우
-         */
-        User user = userRepository.findById(userId);
-        boolean shouldUpdateInterests = user.isEditInfoFlag() || !userInterestsMapInTeam.containsKey(userId);
-        if (shouldUpdateInterests) {
-            userInterestsMapInTeam.put(userId, interests);
-        }
+        userInterestsMapInTeam.put(userId, interests);
+
         teamInterestsMap.put(teamId, userInterestsMapInTeam);
 
         // 검증용
@@ -78,8 +71,7 @@ public class MemoryQuestionRepository implements QuestionRepository {
         // teamId별로 user들의 관심사 list 정보를 count & 가중치를 다르게 부여해서 질문 return
         Map<String, String[]> userInterestsMapInTeam = teamInterestsMap.get(teamId);
 
-        // 관심사 빈도 수를 저장할 맵 -> user가 채팅방을 나갔다 들어올 경우, 관심사를 변경했을수도 있으므로 매번 새로 계산
-        // 추후에 리펙토링 필요할 듯
+        // 관심사 빈도 수를 저장할 맵 (key : 관심사 키워드, value : 빈도수)
         Map<String, Integer> interestCountMap = new HashMap<>();
 
         for (String[] interests : userInterestsMapInTeam.values()) {

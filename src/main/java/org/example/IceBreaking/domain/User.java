@@ -15,7 +15,6 @@ public class User {
     private String department;      // 학과
     private String studentId;       // 학번
     private String[] interests;     // 관심사 키워드 list
-    private boolean editInfoFlag;   // user의 개인정보 수정 유/무 판단 -> memoryQuestionRepo에서 사용
 
     public boolean matchPassword(String password) {
         if (password == null) {
