@@ -24,6 +24,7 @@ public class SignupController {
 
     @PostMapping("/signup")
     public String createUser(@ModelAttribute User user) {
+        user.setEditInfoFlag(false);        // editInfoFlag의 초기값 : false
         userRepository.save(user);
 
         // 검증용
@@ -35,6 +36,7 @@ public class SignupController {
         System.out.println("savedUser.get().getDepartment() = " + savedUser.getDepartment());
         System.out.println("savedUser.get().getStudentId() = " + savedUser.getStudentId());
         System.out.println("savedUser.get().getInterests() = " + Arrays.toString(savedUser.getInterests()));
+        System.out.println("savedUser.isEditInfoFlag() = " + savedUser.isEditInfoFlag());
 
         return "redirect:/showLogin";         // 회원가입 후 로그인 화면으로 redirect
     }

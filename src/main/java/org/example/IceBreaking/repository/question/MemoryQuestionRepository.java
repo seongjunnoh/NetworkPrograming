@@ -1,18 +1,26 @@
 package org.example.IceBreaking.repository.question;
 
+import lombok.RequiredArgsConstructor;
 import org.example.IceBreaking.domain.Question;
+import org.example.IceBreaking.domain.User;
 import org.example.IceBreaking.dto.UserInterestDto;
 import org.example.IceBreaking.enumData.InterestKeyword;
 import org.example.IceBreaking.enumData.QuestionsByInterestKey;
+import org.example.IceBreaking.repository.user.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@RequiredArgsConstructor
 public class MemoryQuestionRepository implements QuestionRepository {
+
+    private final UserRepository userRepository;
 
     private static final String welcomeQuestion = "전화번호를 입력해주세요.";
     private static final Map<InterestKeyword, QuestionsByInterestKey> questionMap = new HashMap<>();
+
+    // key : teamId, value : key가 userId이고 value가 user의 interests 인 map
     private final Map<Integer, Map<String, String[]>> teamInterestsMap = new HashMap<>();
 
     static {
@@ -36,7 +44,6 @@ public class MemoryQuestionRepository implements QuestionRepository {
     @Override
     public void saveInterestsByTeam(UserInterestDto userInterestDto) {
         // 채팅방에 입장한 user들의 관심사 정보를 저장 & 겹치는 것이 있는지 체크
-        // 같은 userId값을 가진 User가 여러번 입장해도 한번만 put -> 이 기능 추가해야함
 
         String userId = userInterestDto.getUserId();
         int teamId = userInterestDto.getTeamId();
@@ -49,13 +56,14 @@ public class MemoryQuestionRepository implements QuestionRepository {
 
         // userInterestsMapInTeam 에 userId 별로 관심사 키워드 정보 추가
         /**
-         * user가 관심사 정보를 수정하고 다시 채팅방 입장시에는 이 정보가 바껴야함 -> 추가 리펙토링 필요
-         * dto에 user가 관심사를 수정했는지 아닌지를 check하는 flag 정보가 추가되어야함
+         * user가 관심사 정보를 수정하고 다시 채팅방 입장시에는 이 정보가 바껴야함
+         * -> user의 isEditInfoFlag값이 true인 경우
          */
-        if (!userInterestsMapInTeam.containsKey(userId)) {
+        User user = userRepository.findById(userId);
+        boolean shouldUpdateInterests = user.isEditInfoFlag() || !userInterestsMapInTeam.containsKey(userId);
+        if (shouldUpdateInterests) {
             userInterestsMapInTeam.put(userId, interests);
         }
-
         teamInterestsMap.put(teamId, userInterestsMapInTeam);
 
         // 검증용
