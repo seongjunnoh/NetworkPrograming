@@ -116,7 +116,7 @@
         <label><input type="checkbox" name="interests" value="sports"
                       th:checked="${#arrays.contains(user.interests, 'sports')}"> 스포츠</label>
         <label><input type="checkbox" name="interests" value="movies/drama"
-                      th:checked="${#arrays.contains(user.interests, 'movies/drama')}"> 영화/드라마</label>
+                      th:checked="${#arrays.contains(user.interests, 'moviesAndDrama')}"> 영화/드라마</label>
         <label><input type="checkbox" name="interests" value="music"
                       th:checked="${#arrays.contains(user.interests, 'music')}"> 노래</label>
         <label><input type="checkbox" name="interests" value="games"
@@ -130,7 +130,7 @@
         <label><input type="checkbox" name="interests" value="pet"
                       th:checked="${#arrays.contains(user.interests, 'pet')}"> 반려동물</label>
         <label><input type="checkbox" name="interests" value="balanceGame"
-                      th:checked="${#arrays.contains(user.interests, 'balanceGame')}"> 밸런스게임</label>
+                      th:checked="${#arrays.contains(user.interests, 'balanceGames')}"> 밸런스게임</label>
         <label><input type="checkbox" name="interests" value="if"
                       th:checked="${#arrays.contains(user.interests, 'if')}"> 망상(IF)</label>
     </div>
