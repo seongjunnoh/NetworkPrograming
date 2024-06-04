@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: NanumSquareNeo, sans-serif;
+            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
-            background-color: #e0f7fa;
         }
 
         h2 {
             text-align: center;
-            color: #0277bd;
+            color: #000;
             margin-top: 20px;
         }
 
@@ -25,6 +25,8 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 600px;
+            background: linear-gradient(180deg, rgba(100, 216, 255, 0.4) 0%, rgba(199, 241, 255, 0.4) 100%);
+
         }
 
         .exit-button-container {
@@ -40,12 +42,13 @@
         .team-item {
             margin-bottom: 10px;
             padding: 10px;
-            background-color: #e0f7fa;
+            background-color: #fff;
             border: 1px solid #b3e5fc;
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-rignt: 100px;
         }
 
         .team-item:hover {
@@ -67,8 +70,10 @@
         }
 
         .enter-button {
-            background-color: #64d8ff;
+            background-color: #000;
             color: #fff;
+            border-radius: 50px;
+
         }
 
         .enter-button:hover {
@@ -86,10 +91,11 @@
     </style>
 </head>
 <body>
-<h2>팀플방 찾기</h2>
 <div class="team-list">
     <!-- 나가기 버튼 추가 -->
     <div class="exit-button-container">
+        <h2>팀플방 찾기</h2>
+
         <form action="/" method="get">
             <button type="submit" class="exit-button">나가기</button>
         </form>
