@@ -96,7 +96,7 @@
                 .chip {
              display: flex;
             align-items: center;
-            background-color: ##FFFFFF;
+            background-color: #FFFFFF;
             border: 2px solid #595959;
             border-radius: 25px;
             padding: 5px 15px;
@@ -182,7 +182,6 @@
                 <input type="checkbox" name="interests" value="if" hidden
                        th:checked="${#arrays.contains(user.interests, 'if')}"> 망상(IF)</label>
         </div>
-        <input type="hidden" name="interests" id="selectedInterests" value="">
 
         <button type="submit">수정하기</button>
 
