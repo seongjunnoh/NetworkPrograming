@@ -8,94 +8,102 @@
     <title>홈</title>
     <style>
         body {
-            font-family: 'NanumSquareNeo', sans-serif;
+            font-family: NanumSquareNeo, sans-serif;
             margin: 0;
-            padding: 0 0 100px; /* 하단에 100px의 패딩 추가 */
-            background:url(/background2.png),linear-gradient(135deg, #e0f7fa, #ace0f9);
-            background-size: auto,auto;
-
+            padding: 0;
+            background-color: #e0f7fa;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
-            color: #333;
         }
 
         .logo {
-            width: 600px;
-            margin-top: 0px;
-            margin-bottom: -100px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .top-buttons {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            justify-content: center;
+            gap: 20px;
             padding: 20px;
         }
 
         .top-buttons a {
             text-decoration: none;
-            font-size: 18px;
-            font-weight: 500;
-            color: #ffffff;
-            background-color: #64d8ff;
-            padding: 12px 36px;
-            border-radius: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            width: 80%;
-            text-align: center;
+            color: #333;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .top-buttons a:hover {
-            background-color: #0288d1;
-            box-shadow: 0 6px 10px rgba(0, 105, 180, 0.3);
-        }
-
-        h2, .subtitle {
-            text-align: center;
-            padding: 10px;
+            color: #64d8ff;
+            background-color: #e0f7fa;
         }
 
         h2 {
-            font-size: 28px;
+            text-align: center;
             color: #0277bd;
+            padding: 20px 0;
         }
 
         .subtitle {
-            font-size: 16px;
-            color: #666; /* Lighter text color for subtitles */
+            text-align: center;
+            color: #000;
+            font-size: 14px;
         }
 
-        .main-content img {
-            width: 100%;
-            max-width: 600px; /* Constraint for maximum width */
-            margin: 20px 0;
-            margin-bottom: 50px; /* 추가된 하단 여백 */
-        }
         .buttons-bottom {
-            padding-bottom: 50px; /* 버튼 하단에 추가 패딩 */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
         }
+
         .buttons-bottom a {
-
-            padding: 15px 30px;
-            border-radius: 25px;
-            margin-bottom: 50px;
-            text-decoration: none; /* 추가된 속성: 밑줄 제거 */
-
-            font-size: 18px;
-            font-weight: 500;
-            color: #ffffff;
-            background-color: #64d8ff;
-
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            width: 80%; /* Responsive button width */enter;
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-family: Gmarket Sans;
+            font-weight: 400;
+            letter-spacing: 0.02px;
+            padding: 16px 40px;
+            background-color: #0A0A0A;
+            border-radius: 15px;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
-                .entered-teams {
+
+        .buttons-bottom a:hover {
+            background-color: #333333;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .main-image {
+            max-width: 100%;
+            width: 360px;
+            margin: 20px 0;
+        }
+
+        .entered-teams {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
@@ -105,7 +113,14 @@
             box-sizing: border-box;
         }
 
-                .entered-teams a {
+        .entered-teams-title {
+            text-align: center;
+            color: #00796b;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .entered-teams a {
             text-decoration: none;
             color: white;
             font-size: 15px;
@@ -122,16 +137,6 @@
         .entered-teams a:hover {
             background-color: #004d40;
         }
-
-        .entered-teams-title {
-            text-align: center;
-            color: #00796b;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-
-
     </style>
 </head>
 <body>
@@ -148,7 +153,6 @@
 </div>
 
 <h2>어색한 팀플 시작 얼음깨기와 함께!</h2>
-
 <p class="subtitle">얼어붙은 마음을 깨는 가장 쉬운 방법</p>
 
 <div class="main-content">
@@ -167,4 +171,3 @@
 
 </body>
 </html>
-
