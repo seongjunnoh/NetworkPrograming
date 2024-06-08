@@ -95,23 +95,6 @@ public class MemoryQuestionRepository implements QuestionRepository {
         System.out.println("targetIndex = " + targetIndex);
         System.out.println("selectedInterest = " + selectedInterest);
 
-//        // 관심사 키워드를 빈도수에 따라 일렬로 늘어놓음
-//        List<String> interestsInOrder = new ArrayList<>();
-//        for (Map.Entry<String, Integer> entry : interestCountMap.entrySet()) {
-//            for (int i = 0; i < entry.getValue(); i++) {
-//                interestsInOrder.add(entry.getKey());
-//            }
-//        }
-//        // 검증용
-//        System.out.println("interestsInOrder = " + interestsInOrder);
-//        System.out.println("interestsInOrder.size() = " + interestsInOrder.size());
-//
-//        // interestsInOrder에서 questionCount번째 관심사 키워드 get
-//        if (questionIndex >= interestsInOrder.size()) {
-//            questionIndex = questionIndex % interestsInOrder.size();
-//        }
-//        String selectedInterest = interestsInOrder.get(questionIndex);
-
         // 해당 관심사 키워드에 해당하는 질문들 중 하나를 랜덤으로 get & return
         Random random = new Random();
         QuestionsByInterestKey questionsByInterestKey = questionMap.get(InterestKeyword.valueOf(selectedInterest.toUpperCase()));
